@@ -81,10 +81,10 @@ public class Properties {
 		}
 		
 		/* Change! Set tool-specific environment variables here */
-		ANDROID_SIGVERIFIER_FILES_HOME = System.getenv("ANDROID_SIGVERIFIER_HOME");
+		ANDROID_SIGVERIFIER_FILES_HOME = System.getenv("ANDROID_SIGVERIFIER_FILES_HOME");
 		if (ANDROID_SIGVERIFIER_FILES_HOME == null) {
 			System.err
-					.println("Environment variable ANDROID_SIGVERIFIER_HOME not set.");
+					.println("Environment variable ANDROID_SIGVERIFIER_FILES_HOME not set.");
 		}
 		
 		/* CHANGE (START): Check if tool exists */
