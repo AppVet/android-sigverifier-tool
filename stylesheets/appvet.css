@@ -1,0 +1,159 @@
+html * {
+	font-family: Arial;
+}
+
+h1 {
+	color: #606060;
+	font-family: arial;
+	font-size: 26px;
+}
+
+frame.inset {
+	border-style: inset;
+	border-width: 1px;
+}
+
+frame.outset {
+	border-style: outset;
+	border-width: 1px;
+}
+
+a.list-link {
+	color: #606060;
+	font-size: 18px;
+}
+
+code {
+	color: black;
+	font-family: "Courier New";
+	font-size: 16px;
+}
+
+li.big {
+	color: #606060;
+	font-size: 20px;
+}
+
+h2 {
+	color: #606060;
+	font-size: 24px;
+}
+
+h2.menu {
+	color: #606060;
+	font-size: 16px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+h3 {
+	color: #606060;
+	font-size: 20px;
+}
+
+h4 {
+	color: #606060;
+	font-family: arial;
+	font-size: 16px;
+}
+
+a:link {
+	color: #606060;
+	text-decoration: none;
+}
+
+/* visited link */
+a:visited {
+	color: green;
+	text-decoration: none;
+}
+
+/* mouse over link */
+a:hover {
+	color: blue;
+	text-decoration: none;
+}
+
+/* selected link */
+a:active {
+	color: blue;
+	text-decoration: none;
+}
+
+a:link.underline {
+	color: #606060;
+	text-decoration: underline;
+}
+
+/* visited link */
+a:visited.underline {
+	color: green;
+	text-decoration: underline;
+}
+
+/* mouse over link */
+a:hover.underline {
+	color: blue;
+	text-decoration: underline;
+}
+
+/* selected link */
+a:active.underline {
+	color: blue;
+	text-decoration: underline;
+}
+
+p.cap {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+table {
+	width: 75%;
+	border: 1px solid black;
+	padding: 0px;
+	border-collapse: collapse;
+}
+
+table.noborder {
+	width: 75%;
+	padding: 0px;
+	border-collapse: collapse;
+	border: 0px;
+}
+
+th {
+	background-color: #E6E6E6;
+	padding: 0px;
+	border-collapse: collapse;
+	border: 1px solid black;
+}
+
+th.noborder {
+	background-color: #E6E6E6;
+	padding: 0px;
+	border-collapse: collapse;
+	border: 0px;
+}
+
+
+
+tr,td {
+	border-collapse: collapse;
+	border: 1px solid black;
+}
+
+tr.noborder, td.noborder{
+	border-collapse: collapse;
+	border: 0px;
+}
+
+titlename {
+		font-size: 28px;
+	font-weight: bold;
+}
+
+ul.menu {
+	margin: 0px;
+	padding-left: 30;
+}

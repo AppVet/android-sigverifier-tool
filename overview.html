@@ -1,0 +1,126 @@
+<html>
+
+<head>
+<link rel="stylesheet" href="stylesheets/appvet.css">
+</head>
+
+<body>
+	<h1 id="overview">Overview</h1>
+
+	<ul>
+		<li class="big"><a href="#desc" target="rightframe">Description</a></li>
+		<li class="big"><a href="#scans" target="rightframe">Risk Mappings</a></li>
+		<li class="big"><a href="#results" target="rightframe">Possible
+				Results</a></li>
+		<li class="big"><a href="#refs" target="rightframe">References</a></li>
+	</ul>
+	<hr>
+
+	<hr>
+	<h3 id="desc">Description</h3>
+	<p>
+		The APK Signature Verifier is an <a
+			href="http://appvet.github.io/appvet/">AppVet-</a>compatible online
+		tool that wraps the Oracle
+		<code>jarsigner</code>
+		tool to verify the signatures and integrity of Android APK files. As
+		described in the <a href="http://docs.oracle.com/javase/6/docs/technotes/tools/windows/jarsigner.html" target="_blank"> Oracle
+		jarsigner documentation</a> for JAR files, a successful APK file verification occurs
+		if the signature(s) are valid, and none of the files that were in the
+		APK file when the signatures were generated have been changed since
+		then. APK file verification involves the following steps:
+	<ul>
+		<li>Verify the signature of the .SF file (i.e., signature file)
+			itself. That is, the verification ensures that the signature stored
+			in each signature block (.DSA) file was in fact generated using the
+			private key corresponding to the public key whose certificate (or
+			certificate chain) also appears in the .DSA file. It also ensures
+			that the signature is a valid signature of the corresponding
+			signature (.SF) file, and thus the .SF file has not been tampered
+			with.</li>
+		<li>Verify the digest listed in each entry in the .SF file with
+			each corresponding section in the manifest.
+			<p>The .SF file by default includes a header containing a hash of
+				the entire manifest file. When the header is present, then the
+				verification can check to see whether or not the hash in the header
+				indeed matches the hash of the manifest file. If that is the case,
+				verification proceeds to the next step.</p>
+			<p>If that is not the case, a less optimized verification is
+				required to ensure that the hash in each source file information
+				section in the .SF file equals the hash of its corresponding section
+				in the manifest file (see The Signature (.SF) File).</p>
+			<p>One reason the hash of the manifest file that is stored in the
+				.SF file header may not equal the hash of the current manifest file
+				would be because one or more files were added to the APK file (using
+				the jar tool) after the signature (and thus the .SF file) was
+				generated. When the jar tool is used to add files, the manifest file
+				is changed (sections are added to it for the new files), but the .SF
+				file is not. A verification is still considered successful if none
+				of the files that were in the APK file when the signature was
+				generated have been changed since then, which is the case if the
+				hashes in the non-header sections of the .SF file equal the hashes
+				of the corresponding sections in the manifest file.</p>
+		</li>
+		<li>Read each file in the APK file that has an entry in the .SF
+			file. While reading, compute the file's digest, and then compare the
+			result with the digest for this file in the manifest section. The
+			digests should be the same, or verification fails.
+	</p>
+	</li>
+	</ul>
+
+	If any serious verification failures occur during the verification
+	process, the process is stopped and a security exception is thrown. It
+	is caught and displayed by jarsigner.
+
+
+	<h3 id="scans">Risk Mappings</h3>
+The <code>jarsigner</code> tool generates a report that is mapped by the APK Signature Verifier to a risk 
+assessment (i.e., <code>LOW</code>, <code>MODERATE</code>, or <code>HIGH</code> risk) based 
+on the content of the report. The following shows the mappings between report 
+items and risk assessments. Note that the default risk assessment is set to 
+<code>LOW</code>.
+<pre>
+<code>
+   &lt;appvet:Result&gt;
+      &lt;appvet:DefaultStatus&gt;LOW&lt;/appvet:DefaultStatus&gt;
+      &lt;appvet:Low&gt;jar verified.&lt;/appvet:Low&gt;
+      &lt;appvet:Moderate&gt;jar contains unsigned entries which have not been integrity-checked&lt;/appvet:Moderate&gt;
+      &lt;appvet:Moderate&gt;jar contains entries whose signer certificate has expired&lt;/appvet:Moderate&gt;
+      &lt;appvet:Moderate&gt;jar contains entries whose certificate chain is not validated&lt;/appvet:Moderate&gt;
+      &lt;appvet:Moderate&gt;jar contains signatures that does not include a timestamp&lt;/appvet:Moderate&gt;
+      &lt;appvet:High&gt;java.lang.SecurityException&lt;/appvet:High&gt;
+   &lt;/appvet:Result&gt;
+</code>
+</pre>
+	<h3 id="results">Possible Results</h3>
+	<ul>
+		<li><p>
+				<font color="green">LOW</font>: The app file was correctly signed.
+			</p></li>
+		<li><p>
+				<font color="orange">MODERATE</font>: A moderate verification error has occurred.
+			</p></li>
+		<li><p>
+				<font color="red">HIGH</font>: A serious verification error has occurred.
+			</p></li>
+			<li><p>
+				<font color="black">ERROR</font>: An internal problem occurred with
+				the tool.
+			</p></li>
+	</ul>
+	<h3 id="refs">References</h3>
+	<p>
+		For more information about the Java
+		<tt>jarsigner</tt>
+		tool, see <a
+			href="http://docs.oracle.com/javase/6/docs/technotes/tools/windows/jarsigner.html" target="_blank">
+			Oracle jarsigner tool</a>. <br> <br> For more information about
+		AppVet, see <a href="http://appvet.github.io/appvet" target="_blank">AppVet</a>. <br>
+		<br> Download the source code for this example tool from see <a
+			href="https://github.com/AppVet/android-cert-toolservice">GitHub</a>.
+	</p>
+</body>
+</body>
+
+</html>
