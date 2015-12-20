@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<appvet:ToolAdapter xmlns:appvet="http://appvet.github.io/appvet/schemas"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://appvet.github.io/appvet/schemas ToolAdapter.xsd ">
+	<appvet:Description>
+		<appvet:Name>Android Signature Verifier</appvet:Name>
+		<appvet:Id>sigverifier</appvet:Id>
+		<appvet:Category>TESTTOOL</appvet:Category>
+		<appvet:OS>ANDROID</appvet:OS>
+		<appvet:VendorName>NIST</appvet:VendorName>
+		<appvet:VendorWebsite>http://127.0.0.1:8080/android-sigverifier-tool</appvet:VendorWebsite>
+		<appvet:AppSubmit>APP_FILE</appvet:AppSubmit>
+		<appvet:AuthenticationRequired>false</appvet:AuthenticationRequired>
+		<appvet:ReportFile>HTML</appvet:ReportFile>
+	</appvet:Description>
+	<appvet:Protocol>
+		<appvet:Asynchronous>
+			<appvet:Request>
+				<appvet:URL>http://127.0.0.1:8080/android-sigverifier-tool/Service</appvet:URL>
+				<appvet:Method>POST</appvet:Method>
+				<appvet:AuthenticationRequired>false</appvet:AuthenticationRequired>
+				<appvet:Parameter>
+					<appvet:Name>appid</appvet:Name>
+					<appvet:Value>APPVET_DEFINED</appvet:Value>
+				</appvet:Parameter>
+				<appvet:Parameter>
+					<appvet:Name>file</appvet:Name>
+					<appvet:Value>APP_FILE</appvet:Value>
+				</appvet:Parameter>
+				<appvet:Polling>
+					<appvet:MaxIterations>0</appvet:MaxIterations>
+					<appvet:Sleep>0</appvet:Sleep>
+				</appvet:Polling>
+			</appvet:Request>
+			<appvet:Response>
+				<appvet:ReportPayload>false</appvet:ReportPayload>
+			</appvet:Response>
+		</appvet:Asynchronous>
+	</appvet:Protocol>
+</appvet:ToolAdapter>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<appvet:Tool xmlns:appvet="http://appvet.github.io/appvet/schemas"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://appvet.github.io/appvet/schemas ToolProperties.xsd ">
+	<appvet:Name>Android Signature Verifier</appvet:Name>
+	<appvet:Version>1.0</appvet:Version>
+	<appvet:ServiceURL>http://127.0.0.1:8080/android-sigverifier-tool</appvet:ServiceURL>
+	<appvet:AppVetProtocol>ASYNCHRONOUS</appvet:AppVetProtocol>
+	<appvet:AppOs>ANDROID</appvet:AppOs>
+	<appvet:Command>jarsigner -verify -verbose -certs [APP_FILE_PATH]</appvet:Command>
+	<appvet:CommandTimeout>120000</appvet:CommandTimeout>
+	<appvet:Logging>
+		<appvet:Level>DEBUG</appvet:Level>
+		<appvet:ToConsole>true</appvet:ToConsole>
+		<appvet:LogName>log.txt</appvet:LogName>
+	</appvet:Logging>
+	<appvet:Report>
+		<appvet:Format>HTML</appvet:Format>
+		<appvet:Result>
+			<appvet:DefaultStatus>LOW</appvet:DefaultStatus>
+			<appvet:Low>jar verified.</appvet:Low>
+			<appvet:Moderate>jar contains unsigned entries which have not been integrity-checked</appvet:Moderate>
+			<appvet:Moderate>jar contains entries whose signer certificate has expired</appvet:Moderate>
+			<appvet:Moderate>jar contains entries whose certificate chain is not validated</appvet:Moderate>
+			<appvet:Moderate>jar contains signatures that does not include a timestamp</appvet:Moderate>
+			<appvet:High>java.lang.SecurityException</appvet:High>
+		</appvet:Result>
+	</appvet:Report>
+	<appvet:AppVet>
+		<appvet:URL>http://127.0.0.1:8080/appvet/AppVetServlet</appvet:URL>
+		<appvet:Method>POST</appvet:Method>
+		<appvet:ToolId>sigverifier</appvet:ToolId>
+		<appvet:Username>sigverifier-username</appvet:Username>
+		<appvet:Password>sigverifier-password</appvet:Password>
+	</appvet:AppVet>
+</appvet:Tool>
