@@ -9,13 +9,12 @@
 
 	<ul>
 		<li class="big"><a href="#desc" target="rightframe">Description</a></li>
-		<li class="big"><a href="#scans" target="rightframe">Risk Mappings</a></li>
+		<li class="big"><a href="#scans" target="rightframe">Risk
+				Mappings</a></li>
 		<li class="big"><a href="#results" target="rightframe">Possible
 				Results</a></li>
 		<li class="big"><a href="#refs" target="rightframe">References</a></li>
 	</ul>
-	<hr>
-
 	<hr>
 	<h3 id="desc">Description</h3>
 	<p>
@@ -24,11 +23,13 @@
 		tool that wraps the Oracle
 		<code>jarsigner</code>
 		tool to verify the signatures and integrity of Android APK files. As
-		described in the <a href="http://docs.oracle.com/javase/6/docs/technotes/tools/windows/jarsigner.html" target="_blank"> Oracle
-		jarsigner documentation</a> for JAR files, a successful APK file verification occurs
-		if the signature(s) are valid, and none of the files that were in the
-		APK file when the signatures were generated have been changed since
-		then. APK file verification involves the following steps:
+		described in the <a class="underline"
+			href="http://docs.oracle.com/javase/6/docs/technotes/tools/windows/jarsigner.html"
+			target="_blank"> Oracle jarsigner documentation</a> for JAR files, a
+		successful APK file verification occurs if the signature(s) are valid,
+		and none of the files that were in the APK file when the signatures
+		were generated have been changed since then. APK file verification
+		involves the following steps:
 	<ul>
 		<li>Verify the signature of the .SF file (i.e., signature file)
 			itself. That is, the verification ensures that the signature stored
@@ -65,8 +66,8 @@
 			file. While reading, compute the file's digest, and then compare the
 			result with the digest for this file in the manifest section. The
 			digests should be the same, or verification fails.
-	</p>
-	</li>
+			</p>
+		</li>
 	</ul>
 
 	If any serious verification failures occur during the verification
@@ -75,12 +76,20 @@
 
 
 	<h3 id="scans">Risk Mappings</h3>
-The <code>jarsigner</code> tool generates a report that is mapped by the APK Signature Verifier to a risk 
-assessment (i.e., <code>LOW</code>, <code>MODERATE</code>, or <code>HIGH</code> risk) based 
-on the content of the report. The following shows the mappings between report 
-items and risk assessments. Note that the default risk assessment is set to 
-<code>LOW</code>.
-<pre>
+	The
+	<code>jarsigner</code>
+	tool generates a report that is scanned by the APK Signature Verifier
+	to identify a risk assessment (i.e.,
+	<code>LOW</code>
+	,
+	<code>MODERATE</code>
+	, or
+	<code>HIGH</code>
+	risk). The following shows the mappings between report items and risk
+	assessments. Note that the default risk assessment is set to
+	<code>LOW</code>
+	.
+	<pre>
 <code>
    &lt;appvet:Result&gt;
       &lt;appvet:DefaultStatus&gt;LOW&lt;/appvet:DefaultStatus&gt;
@@ -99,24 +108,27 @@ items and risk assessments. Note that the default risk assessment is set to
 				<font color="green">LOW</font>: The app file was correctly signed.
 			</p></li>
 		<li><p>
-				<font color="orange">MODERATE</font>: A moderate verification error has occurred.
+				<font color="orange">MODERATE</font>: A moderate verification error
+				has occurred.
 			</p></li>
 		<li><p>
-				<font color="red">HIGH</font>: A serious verification error has occurred.
+				<font color="red">HIGH</font>: A serious verification error has
+				occurred.
 			</p></li>
-			<li><p>
+		<li><p>
 				<font color="black">ERROR</font>: An internal problem occurred with
 				the tool.
 			</p></li>
 	</ul>
 	<h3 id="refs">References</h3>
 	<p>
-		For more information about the Java
+		For more information about the Oracle
 		<tt>jarsigner</tt>
 		tool, see <a
-			href="http://docs.oracle.com/javase/6/docs/technotes/tools/windows/jarsigner.html" target="_blank">
-			Oracle jarsigner tool</a>. <br> <br> For more information about
-		AppVet, see <a href="http://appvet.github.io/appvet" target="_blank">AppVet</a>. <br>
+			href="http://docs.oracle.com/javase/6/docs/technotes/tools/windows/jarsigner.html"
+			target="_blank"> Oracle jarsigner tool</a>. <br> <br> For
+		more information about AppVet, see <a
+			href="http://appvet.github.io/appvet" target="_blank">AppVet</a>. <br>
 		<br> Download the source code for this example tool from see <a
 			href="https://github.com/AppVet/android-cert-toolservice">GitHub</a>.
 	</p>
