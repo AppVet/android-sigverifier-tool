@@ -29,8 +29,10 @@
 	<appvet:AppVet>
 		<appvet:URL>http://127.0.0.1:8080/appvet/AppVetServlet</appvet:URL>
 		<appvet:Method>POST</appvet:Method>
+		<!-- Always use 'sigverifier' for the tool ID. -->
 		<appvet:ToolId>sigverifier</appvet:ToolId>
-		<appvet:Username>sigverifier-username</appvet:Username>
+		<!-- Always use 'sigverifier' for the Username. -->
+		<appvet:Username>sigverifier</appvet:Username>
 		<appvet:Password>sigverifier-password</appvet:Password>
 	</appvet:AppVet>
 </appvet:Tool>
