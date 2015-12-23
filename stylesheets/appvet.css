@@ -26,7 +26,7 @@ a.list-link {
 code {
 	color: black;
 	font-family: "Courier New";
-	font-size: 16px;
+	font-size: 15px;
 }
 
 li.big {
@@ -44,6 +44,12 @@ h2.menu {
 	font-size: 16px;
 	margin-top: 5px;
 	margin-bottom: 5px;
+	
+}
+
+titlename {
+	color: #606060;
+	font-size: 24px;
 }
 
 h3 {
@@ -103,57 +109,49 @@ a:active.underline {
 	text-decoration: underline;
 }
 
+
 p.cap {
 	font-size: 14px;
 	font-weight: bold;
 }
 
-table {
-	width: 75%;
-	border: 1px solid black;
-	padding: 0px;
-	border-collapse: collapse;
-}
-
-table.noborder {
-	width: 75%;
-	padding: 0px;
-	border-collapse: collapse;
-	border: 0px;
-}
-
-th {
-	background-color: #E6E6E6;
-	padding: 0px;
-	border-collapse: collapse;
-	border: 1px solid black;
-}
-
-th.noborder {
-	background-color: #E6E6E6;
-	padding: 0px;
-	border-collapse: collapse;
-	border: 0px;
-}
-
-
-
-tr,td {
-	border-collapse: collapse;
-	border: 1px solid black;
-}
-
-tr.noborder, td.noborder{
-	border-collapse: collapse;
-	border: 0px;
-}
-
-titlename {
-		font-size: 28px;
+p.view {
+	font-size: 12px;
 	font-weight: bold;
 }
 
-ul.menu {
-	margin: 0px;
-	padding-left: 30;
+p.maintained {
+	font-size: 10px;
+	font-weight: bold;
 }
+
+
+table {
+	width: 75%;
+	border: 1px solid black;
+		    padding: 0px;
+		        border-collapse: collapse;
+		    
+
+}
+
+th {
+	    background-color: #E6E6E6;
+	    padding: 0px;
+	    border-collapse: collapse;
+	
+		border: 1px solid black;
+	
+}
+
+tr, td {
+	    border-collapse: collapse;
+	
+			border: 1px solid black;
+	
+}
+
+ul.menu {
+	  margin: 0px;
+    padding-left:30;
+}​

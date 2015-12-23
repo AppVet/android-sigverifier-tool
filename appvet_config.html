@@ -1,0 +1,131 @@
+<html>
+
+<head>
+<title>APK Signature Verifier Installation</title>
+<link rel="stylesheet" href="stylesheets/appvet.css">
+</head>
+
+<body>
+
+	<h1 id="installation">AppVet Configuration</h1>
+
+		<ul>
+			<li class="big"><a href="#acct" target="rightframe">Step 1: Create AppVet
+					Tool Account</a>
+			<li class="big"><a href="#adapter" target="rightframe">Step 2: Install
+					AppVet Tool Adapter</a>
+			<li class="big"><a href="#test" target="rightframe">Step 3: Test or Install Tool</a>
+			</ul>
+
+
+	<hr>
+
+
+	<h2 id="acct">Step 1. Create AppVet Tool Account</h2>
+
+	In an AppVet system, online tools are required to have a user account
+	on AppVet in order to log in and post reports and risk assessments for
+	an app. To add an AppVet user account for the APK Signature Verifier
+	tool, start AppVet (i.e., start Tomcat on the AppVet server) and log in using an ADMIN user account. Next, select
+	<b>Admin &gt; Users</b> and select the
+	<b>Add</b> button. For this tool, set
+	<b>User ID</b> to
+	</i> 'sigverifier' and set
+	<b>Role</b> to 'TOOL_PROVIDER' in the Add User dialog box. All other
+	parameters should be set to appropriate values as shown, for example,
+	in Figure 1. Remember your selected
+	<b>Password</b> as this will be needed later to configure the APK
+	Signature Verifier.
+	<br>
+	<br>
+	<br>
+	<p>
+	<center>
+		<img src="images/add_tool_acct.png" alt="Adding AppVet Tool Account"
+			style="height: 500px;"> <br> <br>
+		<p class="cap">Figure 1. Adding Signature Verifier Tool Account.</p>
+	</center>
+	</p>
+	<br>
+	<br> After adding user 'sigverifier', select
+	<b>Submit</b> and shutdown AppVet (i.e., shutdown Tomcat).
+
+	<h2 id="adapter">Step 2. Install AppVet Tool Adapter</h2>
+	
+	From the AppVet server, open a browser and download the latest APK Signature Verifier tool adapter (
+	<code>android-sigverifier-tool.xml</code>) file at:
+		<br>
+		<p style="text-indent: 5em;">
+		<a class="underline" href="https://github.com/AppVet/android-sigverifier-tool/releases"
+			target="_blank">https://github.com/AppVet/android-sigverifier-tool/releases</a>
+	</p>
+		<br>
+	into your <code>$APPVET_FILES_HOME/conf/tool_adapters/android</code> directory. 
+	<p>
+	Next, edit this tool adapter 
+	file (at <code>$APPVET_FILES_HOME/conf/tool_adapters/android/android-sigverifier-tool.xml</code>) by changing the 
+	<code>&lt;appvet:URL&gt;</code> property to reflect the tool server's hostname or IP address. If the APK Signature Verifier 
+	resides on the same server as AppVet, then set <code>&lt;appvet:URL&gt;</code> to:</p>
+	
+				<p>
+	<pre>
+		<code>
+	&lt;appvet:URL&gt;http://127.0.0.1:8080/android-sigverifier-tool/Service&lt;/appvet:URL&gt;
+		</code>
+		</pre>
+	</p>
+	
+	
+	If, however, APK Signature Verifier 
+	resides on a different server (e.g., <code>tools.example.com</code>) and uses SSL and port 8443, then set <code>&lt;appvet:URL&gt;</code> to: 
+	
+		<p>
+	<pre>
+		<code>
+	&lt;appvet:URL&gt;https://tools.example.com:8443/android-sigverifier-tool/Service&lt;/appvet:URL&gt;
+		</code>
+		</pre>
+	</p>
+	
+	Note that the '<code>/android-sigverifier-tool/Service</code>' portion of the URL should never be modified. 
+	For more information on
+	Tool Adapter Properties, see
+	<a class="underline"
+		href="http://appvet.github.io/appvet/schemas/ToolAdapter.html"
+		target="rightframe">Tool Adapter Properties</a>.
+	<br>
+	<br>
+		<h2 id="test">Step 3. Test or Install Tool</h2>
+	
+	<h3>Test</h3>
+<p>If you are connecting to an existing APK Signature Verifier tool that is accessible to AppVet, you can test the 
+tool by logging into AppVet, uploading an app, and viewing the APK Signature Verifier report. The APK Signature Verifier 
+status and report are shown in Figure 1.
+
+<br>
+<br>
+<br>
+<center>
+	<img width="700px" src="images/screenshot.png" alt="APK Signature Verifier Screenshot">
+	<br> <br> 
+			<p class="cap">Figure 1. APK Signature Verifier.</p>
+	
+</center>
+<br>
+<br>
+<br>
+
+
+If you experience errors 
+connecting to the tool, verify the tool adapter properties or contact the tool's host administrator. 
+
+	<h3>Install Tool</h3>
+If you do not yet have access to an existing APK Signature Verifier tool, you must 
+install it. For more information, see the APK Signature Verifier <a href="tool_installation.html">Tool Installation</a>.
+<br>
+<br>
+<br>
+
+</body>
+
+</html>
