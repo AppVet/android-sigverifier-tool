@@ -2,38 +2,41 @@
 
 <head>
 <title>APK Signature Verifier Installation</title>
-<link rel="stylesheet" href="stylesheets/appvet.css"></head>
+<link rel="stylesheet" href="stylesheets/appvet.css">
+</head>
 
 <body>
 
 	<h1 id="installation">Tool Installation</h1>
-	Installation of the APK Signature Verifier tool requires the following steps:
+	Installation of the APK Signature Verifier tool requires the following
+	steps:
 	</p>
-		<ul>
-			<li class="big"><a href="#dependencies" target="rightframe">Step 1:
-					Install Dependencies</a>
-			<li class="big"><a href="#download" target="rightframe">Step 2:
-					Download and Install APK Signature Verifier</a>
-			<li class="big"><a href="#envvar" target="rightframe">Step 3: Set
-					Environment Variables</a>
-			<li class="big"><a href="#conf" target="rightframe">Step 4:
-					Configure</a>
-			<li class="big"><a href="#test" target="rightframe">Step 5: Test</a>
-		</ul>
+	<ul>
+		<li class="big"><a href="#dependencies" target="rightframe">Step
+				1: Install Dependencies</a>
+		<li class="big"><a href="#download" target="rightframe">Step
+				2: Download and Install APK Signature Verifier</a>
+		<li class="big"><a href="#envvar" target="rightframe">Step 3:
+				Set Environment Variables</a>
+		<li class="big"><a href="#conf" target="rightframe">Step 4:
+				Configure</a>
+		<li class="big"><a href="#test" target="rightframe">Step 5:
+				Test</a>
+	</ul>
 
-<hr>
+	<hr>
 	<h2 id="dependencies">Step 1: Install Dependencies</h2>
 
 	APK Signature Verifier requires the installation of Oracle JDK and
-	Apache Tomcat. If APK Signature Verifier is installed on the
-	same server as AppVet, then Oracle JDK and Apache Tomcat should already
-	be installed. Otherwise, to install Oracle JDK, see the instructions for
+	Apache Tomcat. If APK Signature Verifier is installed on the same
+	server as AppVet, then Oracle JDK and Apache Tomcat should already be
+	installed. Otherwise, to install Oracle JDK, see the instructions for
 	<a class="underline"
 		href="http://appvet.github.io/appvet/dependencies.html#java">Installing
 		Oracle JDK</a>. To install Apache Tomcat, see the instructions for
 	<a class="underline"
 		href="http://appvet.github.io/appvet/dependencies.html#tomcat">Installing
-		Apache Tomcat</a>. 
+		Apache Tomcat</a>.
 
 
 	<h2 id="download">Step 2. Download and Install APK Signature
@@ -74,9 +77,9 @@
 	<code>android_sigverifier_files</code>
 	directory. For example, if
 	<code>android_sigverifier_files</code>
-	was copied to your 
-	<code>$HOME</code> directory
-	, set:
+	was copied to your
+	<code>$HOME</code>
+	directory , set:
 
 	<p style="text-indent: 5em;">
 		<code>$ANDROID_SIGVERIFIER_FILES_HOME=/home/&lt;username&gt;/android_sigverifier_files</code>
@@ -99,20 +102,24 @@
 	<h4>ServiceURL</h4>
 	Set the
 	<code>&lt;appvet:ServiceURL&gt;</code>
-	property that defines the URL of the APK Signature Verifier tool that should be used by
-	AppVet to initiate a connection. If APK Signature Verifier is installed on the same server as AppVet, then set 
-	 <code>&lt;appvet:ServiceURL&gt;</code> to:
-		<p>
+	property that defines the URL of the APK Signature Verifier tool that
+	should be used by AppVet to initiate a connection. If APK Signature
+	Verifier is installed on the same server as AppVet, then set
+	<code>&lt;appvet:ServiceURL&gt;</code>
+	to:
+	<p>
 	<pre>
 		<code>
    &lt;appvet:ServiceURL&gt;http://127.0.0.1:8080/android-sigverifier-tool&lt;/appvet:ServiceURL&gt;
 		</code>
 		</pre>
 	</p>
-	If, however, APK Signature Verifier is installed on a different server than AppVet (e.g., <code>tools.example.com</code>) 
-using SSL and 
-	port 443, set 
-	<code>&lt;appvet:ServiceURL&gt;</code> to:
+	If, however, APK Signature Verifier is installed on a different server
+	than AppVet (e.g.,
+	<code>tools.example.com</code>
+	) using SSL and port 443, set
+	<code>&lt;appvet:ServiceURL&gt;</code>
+	to:
 
 	<p>
 	<pre>
@@ -121,49 +128,64 @@ using SSL and
 		</code>
 		</pre>
 	</p>
-	
-	
-	Note that the '<code>/android-sigverifier-tool</code>' portion of the URL should never be modified.
-	
+
+
+	Note that the '
+	<code>/android-sigverifier-tool</code>
+	' portion of the URL should never be modified.
+
 
 	<h4>AppVet</h4>
-	Set the 
-	<code>&lt;appvet:AppVet&gt;</code> property
-	that defines the AppVet login information. Here, only two parameters should be 
-	set: <code>&lt;appvet:URL&gt;</code> and <code>&lt;appvet:Password&gt;</code>. Set the 
-	<code>&lt;appvet:URL&gt;</code> to the URL of the AppVet server. If 
-	AppVet resides on the same server, set <code>&lt;appvet:URL&gt;</code> to:
-	
-			<p>
+	Set the
+	<code>&lt;appvet:AppVet&gt;</code>
+	property that defines the AppVet login information. Here, only two
+	parameters should be set:
+	<code>&lt;appvet:URL&gt;</code>
+	and
+	<code>&lt;appvet:Password&gt;</code>
+	. Set the
+	<code>&lt;appvet:URL&gt;</code>
+	to the URL of the AppVet server. If AppVet resides on the same server,
+	set
+	<code>&lt;appvet:URL&gt;</code>
+	to:
+
+	<p>
 	<pre>
 		<code>
    &lt;appvet:URL&gt;http://127.0.0.1:8080/appvet/AppVetServlet&lt;/appvet:URL&gt;
 		</code>
 		</pre>
 	</p>
-	If AppVet resides on a different server (e.g., <code>server.mytest.org</code>) using SSL and port 8443,
-	set <code>&lt;appvet:URL&gt;</code> to:
-	
-				<p>
+	If AppVet resides on a different server (e.g.,
+	<code>server.mytest.org</code>
+	) using SSL and port 8443, set
+	<code>&lt;appvet:URL&gt;</code>
+	to:
+
+	<p>
 	<pre>
 		<code>
    &lt;appvet:URL&gt;https://server.mytest.org:8443/appvet/AppVetServlet&lt;/appvet:URL&gt;
 		</code>
 		</pre>
 	</p>
-	 
-	Note that the '/appvet/AppVetServlet' portion of the URL should never be modified.
+
+	Note that the '/appvet/AppVetServlet' portion of the URL should never
+	be modified.
 	<p>
-	To change the AppVet password for your APK Signature Verifier tool, set:
-	
-				<p>
+		Next, replace 'sigverifier-password' with the AppVet password for your
+		APK Signature Verifier tool in the
+		<code>&lt;appvet:Password&gt;</code>
+		property:
+	<p>
 	<pre>
 		<code>
    &lt;appvet:Password&gt;sigverifier-password&lt;/appvet:Password&gt;
 		</code>
 		</pre>
 	</p>
-	
+
 	For more information on Tool Properties, see
 	<a class="underline"
 		href="http://appvet.github.io/appvet/schemas/ToolProperties.html"
@@ -180,25 +202,22 @@ using SSL and
 		<code># $HOME/apache-tomcat-8.&lt;version&gt;/bin/startup.sh</code>
 	</p>
 	<br>
-	<br> <p>Next, log into AppVet, upload an app, and view the APK Signature Verifier report. The APK Signature Verifier 
-status and report are shown in Figure 1.
+	<br>
+	<p>
+		Next, log into AppVet, upload an app, and view the APK Signature
+		Verifier report. The APK Signature Verifier status and report are
+		shown in Figure 1. <br> <br> <br>
+	<center>
+		<img width="700px" src="images/screenshot.png"
+			alt="APK Signature Verifier Screenshot"> <br> <br>
+		<p class="cap">Figure 1. APK Signature Verifier.</p>
 
-<br>
-<br>
-<br>
-<center>
-	<img width="700px" src="images/screenshot.png" alt="APK Signature Verifier Screenshot">
-	<br> <br> 
-			<p class="cap">Figure 1. APK Signature Verifier.</p>
-	
-</center>
-<br>
-<br>
-<br>
-
-If you experience errors 
-connecting to the tool, verify the tool adapter properties (on the AppVet server) 
-and verify the tool's properties (on the tool server).
+	</center>
+	<br>
+	<br>
+	<br> If you experience errors connecting to the tool, verify the
+	tool adapter properties (on the AppVet server) and verify the tool's
+	properties (on the tool server).
 	<br>
 	<br>
 	<br>
