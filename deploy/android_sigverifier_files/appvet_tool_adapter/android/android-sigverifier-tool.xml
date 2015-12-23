@@ -8,7 +8,7 @@
 		<appvet:Category>TESTTOOL</appvet:Category>
 		<appvet:OS>ANDROID</appvet:OS>
 		<appvet:VendorName>NIST</appvet:VendorName>
-		<appvet:VendorWebsite>http://127.0.0.1:8080/android-sigverifier-tool</appvet:VendorWebsite>
+		<appvet:VendorWebsite>http://appvet.github.io/android-sigverifier-tool</appvet:VendorWebsite>
 		<appvet:AppSubmit>APP_FILE</appvet:AppSubmit>
 		<appvet:AuthenticationRequired>false</appvet:AuthenticationRequired>
 		<appvet:ReportFile>HTML</appvet:ReportFile>
