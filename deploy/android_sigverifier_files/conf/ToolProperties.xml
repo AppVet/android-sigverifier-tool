@@ -2,7 +2,7 @@
 <appvet:Tool xmlns:appvet="http://appvet.github.io/appvet/schemas"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://appvet.github.io/appvet/schemas ToolProperties.xsd ">
-	<appvet:Name>Android Signature Verifier</appvet:Name>
+	<appvet:Name>APK Signature Verifier</appvet:Name>
 	<appvet:Version>1.0</appvet:Version>
 	<appvet:ServiceURL>http://127.0.0.1:8080/android-sigverifier-tool</appvet:ServiceURL>
 	<appvet:AppVetProtocol>ASYNCHRONOUS</appvet:AppVetProtocol>

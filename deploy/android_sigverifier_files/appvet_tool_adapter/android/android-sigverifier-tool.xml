@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://appvet.github.io/appvet/schemas ToolAdapter.xsd ">
 	<appvet:Description>
-		<appvet:Name>Android Signature Verifier</appvet:Name>
+		<appvet:Name>APK Signature Verifier</appvet:Name>
 		<appvet:Id>sigverifier</appvet:Id>
 		<appvet:Category>TESTTOOL</appvet:Category>
 		<appvet:OS>ANDROID</appvet:OS>
