@@ -21,7 +21,7 @@
 				<appvet:AuthenticationRequired>false</appvet:AuthenticationRequired>
 				<appvet:Parameter>
 					<appvet:Name>appid</appvet:Name>
-					<appvet:Value>APPVET_DEFINED</appvet:Value>
+					<appvet:Value>APPVET_ID</appvet:Value>
 				</appvet:Parameter>
 				<appvet:Parameter>
 					<appvet:Name>file</appvet:Name>
