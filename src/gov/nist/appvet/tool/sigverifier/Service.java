@@ -152,7 +152,6 @@ public class Service extends HttpServlet {
 		// Use if reading command from ToolProperties.xml. Otherwise, 
 		// comment-out if using custom command (called by customExecute())
 		command = getCommand();
-		reportBuffer = new StringBuffer();
 
 		// If asynchronous, send acknowledgement back to AppVet now
 		if (Properties.protocol.equals(Protocol.ASYNCHRONOUS.name())) {
@@ -163,6 +162,7 @@ public class Service extends HttpServlet {
 		 * or customExecute() to execute your own custom code. Make sure that
 		 * the unused method call is commented-out.
 		 */
+		reportBuffer = new StringBuffer();
 		boolean succeeded = execute(command, reportBuffer);
 		//boolean succeeded = customExecute(reportBuffer);
 		if (!succeeded) {

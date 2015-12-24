@@ -101,20 +101,26 @@ public class Properties {
 		/* CHANGE (END): Check if tool exists */
 		
 		TEMP_DIR = ANDROID_SIGVERIFIER_FILES_HOME + "/apps";
-		if (!new File(TEMP_DIR).exists()) {
-			System.err
-					.println("Directory $ANDROID_SIGVERIFIER_FILES_HOME/apps does not exist.");
+		File tempDir = new File(TEMP_DIR);
+		if (!tempDir.exists()) {
+			tempDir.mkdirs();	
+			System.out.println("Created temp directory for Signature Verifier");
 		}
+//		
+//		if (!new File(TEMP_DIR).exists()) {
+//			System.err
+//					.println("Directory $ANDROID_SIGVERIFIER_FILES_HOME/apps does not exist.");
+//		}
 		CONF_DIR = ANDROID_SIGVERIFIER_FILES_HOME + "/conf";
 		if (!new File(CONF_DIR).exists()) {
 			System.err
 					.println("Directory $ANDROID_SIGVERIFIER_FILES_HOME/conf does not exist.");
 		}
 		LOGS_DIR = ANDROID_SIGVERIFIER_FILES_HOME + "/logs";
-		if (!new File(LOGS_DIR).exists()) {
-			System.err
-					.println("Directory $ANDROID_SIGVERIFIER_FILES_HOME/logs does not exist.");
-		}
+//		if (!new File(LOGS_DIR).exists()) {
+//			System.err
+//					.println("Directory $ANDROID_SIGVERIFIER_FILES_HOME/logs does not exist.");
+//		}
 		
 		// Load XML property file
 		File configFile = new File(CONF_DIR + "/" + PROPERTIES_FILE_NAME);

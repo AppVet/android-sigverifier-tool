@@ -90,7 +90,9 @@ public class Logger {
 		try {
 			logFile = new File(logFilePath);
 			if (!logFile.exists()) {
+				logFile.getParentFile().mkdirs();
 				logFile.createNewFile();
+				System.out.println("Created Signature Verifier log file " + logFilePath);
 			}
 			logToConsole = 
 					new Boolean(Properties.LOG_TO_CONSOLE).booleanValue();
