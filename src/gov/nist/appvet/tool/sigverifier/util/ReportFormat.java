@@ -20,19 +20,16 @@
 package gov.nist.appvet.tool.sigverifier.util;
 
 public enum ReportFormat {
-    HTML,
-    TXT,
-	PDF,
-	JSON;
+    HTML, TXT, PDF, JSON;
 
     private static final ReportFormat[] copyOfValues = values();
-    
+
     public static ReportFormat getEnum(String name) {
-        for (ReportFormat value : copyOfValues) {
-            if (value.name().equals(name)) {
-                return value;
-            }
-        }
-        return null;
+	for (ReportFormat value : copyOfValues) {
+	    if (value.name().equals(name)) {
+		return value;
+	    }
+	}
+	return null;
     }
 }

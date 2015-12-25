@@ -36,77 +36,77 @@ import org.w3c.dom.NodeList;
 
 public class Xml {
 
-	private Document document = null;
+    private Document document = null;
 
-	public Xml(File xmlFile) {
-		DocumentBuilderFactory docBuilderFactory = null;
-		DocumentBuilder docBuilder = null;
-		try {
-			docBuilderFactory = DocumentBuilderFactory.newInstance();
-			docBuilder = docBuilderFactory.newDocumentBuilder();
-			document = docBuilder.parse(xmlFile);
-		} catch (final Exception e) {
-			e.printStackTrace();
-		} finally {
-			docBuilder = null;
-			docBuilderFactory = null;
-		}
+    public Xml(File xmlFile) {
+	DocumentBuilderFactory docBuilderFactory = null;
+	DocumentBuilder docBuilder = null;
+	try {
+	    docBuilderFactory = DocumentBuilderFactory.newInstance();
+	    docBuilder = docBuilderFactory.newDocumentBuilder();
+	    document = docBuilder.parse(xmlFile);
+	} catch (final Exception e) {
+	    e.printStackTrace();
+	} finally {
+	    docBuilder = null;
+	    docBuilderFactory = null;
 	}
+    }
 
-	public String getXPathValue(String nodePath) {
-		if (nodePath == null) {
-			return null;
-		}
-		XPath xPath = XPathFactory.newInstance().newXPath();
-		Node node = null;
-		try {
-			node = (Node) xPath.evaluate(nodePath,
-					document.getDocumentElement(), XPathConstants.NODE);
-			if (node == null) {
-				return null;
-			}
-			final String elementValue = node.getFirstChild().getNodeValue()
-					.trim();
-			if (elementValue != null && !elementValue.isEmpty()) {
-				return elementValue;
-			}
-		} catch (final Exception e) {
-			e.printStackTrace();
-		} finally {
-			node = null;
-			xPath = null;
-		}
+    public String getXPathValue(String nodePath) {
+	if (nodePath == null) {
+	    return null;
+	}
+	XPath xPath = XPathFactory.newInstance().newXPath();
+	Node node = null;
+	try {
+	    node = (Node) xPath.evaluate(nodePath,
+		    document.getDocumentElement(), XPathConstants.NODE);
+	    if (node == null) {
 		return null;
+	    }
+	    final String elementValue = node.getFirstChild().getNodeValue()
+		    .trim();
+	    if (elementValue != null && !elementValue.isEmpty()) {
+		return elementValue;
+	    }
+	} catch (final Exception e) {
+	    e.printStackTrace();
+	} finally {
+	    node = null;
+	    xPath = null;
 	}
+	return null;
+    }
 
-	public ArrayList<String> getXPathValues(String nodePath) {
-		final ArrayList<String> values = new ArrayList<String>();
-		XPath xPath = null;
-		NodeList nodes = null;
-		Element element = null;
-		String elementValue = null;
-		try {
-			xPath = XPathFactory.newInstance().newXPath();
-			nodes = (NodeList) xPath.evaluate(nodePath,
-					document.getDocumentElement(), XPathConstants.NODESET);
-			if (nodes == null || nodes.getLength() == 0) {
-				return null;
-			}
-			for (int i = 0; i < nodes.getLength(); ++i) {
-				element = (Element) nodes.item(i);
-				elementValue = element.getFirstChild().getNodeValue().trim();
-				if (elementValue != null && !elementValue.isEmpty()) {
-					values.add(elementValue);
-				}
-			}
-		} catch (final XPathExpressionException e) {
-			e.printStackTrace();
-		} finally {
-			elementValue = null;
-			element = null;
-			nodes = null;
-			xPath = null;
+    public ArrayList<String> getXPathValues(String nodePath) {
+	final ArrayList<String> values = new ArrayList<String>();
+	XPath xPath = null;
+	NodeList nodes = null;
+	Element element = null;
+	String elementValue = null;
+	try {
+	    xPath = XPathFactory.newInstance().newXPath();
+	    nodes = (NodeList) xPath.evaluate(nodePath,
+		    document.getDocumentElement(), XPathConstants.NODESET);
+	    if (nodes == null || nodes.getLength() == 0) {
+		return null;
+	    }
+	    for (int i = 0; i < nodes.getLength(); ++i) {
+		element = (Element) nodes.item(i);
+		elementValue = element.getFirstChild().getNodeValue().trim();
+		if (elementValue != null && !elementValue.isEmpty()) {
+		    values.add(elementValue);
 		}
-		return values;
+	    }
+	} catch (final XPathExpressionException e) {
+	    e.printStackTrace();
+	} finally {
+	    elementValue = null;
+	    element = null;
+	    nodes = null;
+	    xPath = null;
 	}
+	return values;
+    }
 }

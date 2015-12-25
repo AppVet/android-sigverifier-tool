@@ -25,54 +25,55 @@ import java.io.PrintWriter;
 import javax.servlet.http.HttpServletResponse;
 
 public class HttpUtil {
-	
-	private HttpUtil() {}
-	
-	public static boolean sendHttp202(HttpServletResponse response, 
-			String message) {
-		try {
-			response.setStatus(HttpServletResponse.SC_ACCEPTED);
-			response.setContentType("text/html");
-			PrintWriter out = response.getWriter();
-			out.println(message);
-			out.flush();
-			out.close();
-			return true;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
 
-	public static boolean sendHttp400(HttpServletResponse 
-			response, String message) {
-		try {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			response.setContentType("text/html");
-			PrintWriter out = response.getWriter();
-			out.println(message);
-			out.flush();
-			out.close();
-			return true;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
+    private HttpUtil() {
+    }
 
-	public static boolean sendHttp500(HttpServletResponse response, 
-			String message) {
-		try {
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			response.setContentType("text/html");
-			PrintWriter out = response.getWriter();
-			out.println(message);
-			out.flush();
-			out.close();
-			return true;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
+    public static boolean sendHttp202(HttpServletResponse response,
+	    String message) {
+	try {
+	    response.setStatus(HttpServletResponse.SC_ACCEPTED);
+	    response.setContentType("text/html");
+	    PrintWriter out = response.getWriter();
+	    out.println(message);
+	    out.flush();
+	    out.close();
+	    return true;
+	} catch (IOException e) {
+	    e.printStackTrace();
+	    return false;
 	}
+    }
+
+    public static boolean sendHttp400(HttpServletResponse response,
+	    String message) {
+	try {
+	    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+	    response.setContentType("text/html");
+	    PrintWriter out = response.getWriter();
+	    out.println(message);
+	    out.flush();
+	    out.close();
+	    return true;
+	} catch (IOException e) {
+	    e.printStackTrace();
+	    return false;
+	}
+    }
+
+    public static boolean sendHttp500(HttpServletResponse response,
+	    String message) {
+	try {
+	    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+	    response.setContentType("text/html");
+	    PrintWriter out = response.getWriter();
+	    out.println(message);
+	    out.flush();
+	    out.close();
+	    return true;
+	} catch (IOException e) {
+	    e.printStackTrace();
+	    return false;
+	}
+    }
 }

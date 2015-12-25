@@ -34,47 +34,47 @@ import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 public class SSLWrapper {
-	@SuppressWarnings("deprecation")
-	public static HttpClient wrapClient(HttpClient base) {
-		SSLContext ctx = null;
-		X509TrustManager tm = null;
-		SSLSocketFactory ssf = null;
-		SchemeRegistry sr = null;
-		try {
-			ctx = SSLContext.getInstance("TLSv1.2");
-			tm = new X509TrustManager() {
+    @SuppressWarnings("deprecation")
+    public static HttpClient wrapClient(HttpClient base) {
+	SSLContext ctx = null;
+	X509TrustManager tm = null;
+	SSLSocketFactory ssf = null;
+	SchemeRegistry sr = null;
+	try {
+	    ctx = SSLContext.getInstance("TLSv1.2");
+	    tm = new X509TrustManager() {
 
-				@Override
-				public void checkClientTrusted(X509Certificate[] xcs,
-						String string) throws CertificateException {
-				}
-
-				@Override
-				public void checkServerTrusted(X509Certificate[] xcs,
-						String string) throws CertificateException {
-				}
-
-				@Override
-				public X509Certificate[] getAcceptedIssuers() {
-					return null;
-				}
-
-			};
-			ctx.init(null, new TrustManager[] { tm }, null);
-			ssf = new SSLSocketFactory(ctx);
-			ssf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-			final ClientConnectionManager ccm = base.getConnectionManager();
-			sr = ccm.getSchemeRegistry();
-			sr.register(new Scheme("https", 443, ssf));
-			return new DefaultHttpClient(ccm, base.getParams());
-		} catch (final Exception e) {
-			return null;
-		} finally {
-			sr = null;
-			ssf = null;
-			tm = null;
-			ctx = null;
+		@Override
+		public void checkClientTrusted(X509Certificate[] xcs,
+			String string) throws CertificateException {
 		}
+
+		@Override
+		public void checkServerTrusted(X509Certificate[] xcs,
+			String string) throws CertificateException {
+		}
+
+		@Override
+		public X509Certificate[] getAcceptedIssuers() {
+		    return null;
+		}
+
+	    };
+	    ctx.init(null, new TrustManager[] { tm }, null);
+	    ssf = new SSLSocketFactory(ctx);
+	    ssf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+	    final ClientConnectionManager ccm = base.getConnectionManager();
+	    sr = ccm.getSchemeRegistry();
+	    sr.register(new Scheme("https", 443, ssf));
+	    return new DefaultHttpClient(ccm, base.getParams());
+	} catch (final Exception e) {
+	    return null;
+	} finally {
+	    sr = null;
+	    ssf = null;
+	    tm = null;
+	    ctx = null;
 	}
+    }
 
 }
