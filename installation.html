@@ -20,7 +20,38 @@ and configured to connect to and interact with AppVet.</li>
 <b>IMPORTANT!</b> If the tool already exists online and is accessible to 
 AppVet, then <i>AppVet should be configured to connect to that existing tool and 
 Step 2 should be skipped</i>.
-
+<p>
+Figure 1. shows the distributed communication between AppVet and an online tool called <code>mysec</code>. 
+Here, AppVet is configured to communicate with <code>mysec</code> using 
+tool adapter <code>android_mysec_tool.xml</code>. Typically, this tool adapter 
+will be provided pre-configured by the vendor and defines parameters about the
+tool, its URL, and the data that should be sent to it when submitting an app
+for testing. However, some parameters of 
+<code>android_mysec_tool.xml</code> may need to be modified for your specific
+implementation (e.g., if you are installing <code>mysec</code> locally and 
+need to change the URL of the tool). On the tool side, the tool will have a 
+properties file called 
+<code>ToolProperties.xml</code> that defines data to configure
+the tool and also defines data about how to connect to and authenticate with
+AppVet. 
+<br>
+	<br>
+	<br>
+	<center>
+		<img src="images/tool_protocol.png" alt="Tool prototol" style="height: 400px;">
+		<br> <br>
+		<p class="cap">Figure 1. AppVet-tool protocol.</p>
+	</center>
+	<br>
+	<br>
+As shown in Figure 1, the communication between AppVet and a tool is asynchronous. 
+When an app is sent to a tool from AppVet, the sends an acknowledgement back to 
+AppVet before testing the app. After the tool is done testing the app, it authenticates 
+with AppVet and submits a report and risk assessment for the app. After AppVet 
+receives the report and risk assessment, it returns an acknowledgement back to 
+the tool.
+<br>
+<br>
 </body>
 
 </html>
