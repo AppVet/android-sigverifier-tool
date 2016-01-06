@@ -33,6 +33,9 @@ import java.util.ArrayList;
  * @author steveq@nist.gov
  */
 public class Properties {
+    
+    /** Github release version number. */
+    public static final String version = "1.0.1";
 
     /* CHANGE: Declare tool-specific environment variables. */
     public static String ANDROID_SIGVERIFIER_FILES_HOME = null;
@@ -72,7 +75,7 @@ public class Properties {
 
     static {
 	/* CHANGE: Loading statement */
-	System.out.println("*** Starting Android Sigverifier Tool ***");
+	System.out.println("*** Starting Android Sigverifier Tool v" + version + " ***");
 	String toolOS = System.getProperty("os.name");
 	JAVA_HOME = System.getenv("JAVA_HOME");
 	if (JAVA_HOME == null) {
