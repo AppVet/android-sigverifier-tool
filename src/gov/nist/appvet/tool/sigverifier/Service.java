@@ -240,11 +240,11 @@ public class Service extends HttpServlet {
 	}
 
 	// Clean up
-	if (FileUtil.deleteDirectory(new File(appDirPath))) {
-	    log.debug("Deleted " + appFilePath);
-	} else {
-	    log.warn("Could not delete " + appFilePath);
-	}
+//	if (FileUtil.deleteDirectory(new File(appDirPath))) {
+//	    log.debug("Deleted " + appFilePath);
+//	} else {
+//	    log.warn("Could not delete " + appFilePath);
+//	}
 	reportBuffer = null;
 	System.gc();
     }
@@ -287,15 +287,25 @@ public class Service extends HttpServlet {
 		// Process has waited and exited within the timeout
 		exitValue = process.exitValue();
 		if (exitValue == 0) {
+		    log.debug("Command terminated normally: \n"  + 
+			    outputHandler.getOutput() + "\nErrors: " + 
+			    errorHandler.getOutput());
 		    StringBuilder resultOut = outputHandler.getOutput();
 		    output.append(resultOut);
+		    return true;
 		} else {
+		    log.error("Command terminated normally: \n"  + 
+			    outputHandler.getOutput() + "\nErrors: " + 
+			    errorHandler.getOutput());
 		    StringBuilder resultError = errorHandler.getOutput();
 		    output.append(resultError);
+		    return false;
 		}
-		return true;
 	    } else {
 		// Process exceed timeout or was interrupted
+		    log.error("Command timed-out or was interrupted: \n"  + 
+			    outputHandler.getOutput() + "\nErrors: " + 
+			    errorHandler.getOutput());
 		StringBuilder resultOutput = outputHandler.getOutput();
 		StringBuilder resultError = errorHandler.getOutput();
 		if (resultOutput != null) {
