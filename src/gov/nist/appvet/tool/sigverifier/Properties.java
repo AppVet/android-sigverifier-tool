@@ -49,6 +49,7 @@ public class Properties {
     public static String toolName = null;
     public static String toolVersion = null;
     public static String protocol = null;
+    public static boolean keepApps = false;
     public static String command = null;
     public static int commandTimeout = 0;
     public static String reportFormat = null;
@@ -154,6 +155,10 @@ public class Properties {
 	// AppVet protocol
 	protocol = xml.getXPathValue("/Tool/AppVetProtocol");
 	log.info("/Tool/AppVetProtocol: " + protocol);
+	
+	// Keep apps
+	keepApps = new Boolean(xml.getXPathValue("/Tool/KeepApps")).booleanValue();
+	log.info("/Tool/KeepApps: " + keepApps);
 
 	// Command
 	command = xml.getXPathValue("/Tool/Command");
