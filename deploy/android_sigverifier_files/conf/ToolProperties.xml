@@ -11,8 +11,8 @@
 	<appvet:Command>jarsigner -verify -verbose -certs [APP_FILE_PATH]</appvet:Command>
 	<appvet:CommandTimeout>120000</appvet:CommandTimeout>
 	<appvet:Logging>
-		<appvet:Level>DEBUG</appvet:Level>
-		<appvet:ToConsole>true</appvet:ToConsole>
+		<appvet:Level>INFO</appvet:Level>
+		<appvet:ToConsole>false</appvet:ToConsole>
 		<appvet:LogName>log.txt</appvet:LogName>
 	</appvet:Logging>
 	<appvet:Report>
