@@ -76,7 +76,7 @@ public class Properties {
 
     static {
 	/* CHANGE: Loading statement */
-	System.out.println("*** Starting Android Sigverifier Tool v" + version + " ***");
+	//System.out.println("*** Starting Android Sigverifier Tool v" + version + " ***");
 	String toolOS = System.getProperty("os.name");
 	JAVA_HOME = System.getenv("JAVA_HOME");
 	if (JAVA_HOME == null) {
@@ -108,7 +108,7 @@ public class Properties {
 	File tempDir = new File(TEMP_DIR);
 	if (!tempDir.exists()) {
 	    tempDir.mkdirs();
-	    System.out.println("Created temp directory for Signature Verifier");
+	    //System.out.println("Created temp directory for Signature Verifier");
 	}
 
 	CONF_DIR = ANDROID_SIGVERIFIER_FILES_HOME + "/conf";
