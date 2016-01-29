@@ -10,6 +10,7 @@
 		<appvet:VendorName>NIST</appvet:VendorName>
 		<appvet:VendorWebsite>http://appvet.github.io/android-sigverifier-tool</appvet:VendorWebsite>
 		<appvet:AppSubmit>APP_FILE</appvet:AppSubmit>
+		<appvet:Restriction>NONE</appvet:Restriction>
 		<appvet:AuthenticationRequired>false</appvet:AuthenticationRequired>
 		<appvet:ReportFile>HTML</appvet:ReportFile>
 	</appvet:Description>
