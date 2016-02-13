@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://appvet.github.io/appvet/schemas"
+	xmlns="http://appvet.github.io/appvet/schemas"
+	elementFormDefault="qualified">
+	<!-- $$Id: ToolServiceAdapter.xsd 38580 2014-04-03 19:53:51Z steveq $$ -->
+
+	<xs:element name="ToolAdapter">
+		<xs:annotation>
+			<xs:documentation>The ToolServiceAdapter defines properties for an
+				AppVet tool service.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Description" type="DescriptionType"
+					maxOccurs="1" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>The Description element defines general information
+							about an AppVet tool service.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Protocol" type="ProtocolType"
+					maxOccurs="1" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>The Protocol element defines protocol information
+							for an AppVet tool service.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="DescriptionType">
+		<xs:sequence>
+			<xs:element name="Name" type="xs:string" maxOccurs="1"
+				minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						The Name element defines the name of an AppVet
+						tool service. For example,
+						<Name>My Android Tester</Name>
+						.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Id" maxOccurs="1" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						The Id element defines the ID of the AppVet tool
+						service. The Id element must be alphabetic
+						lowercase. For example,
+						<Id>myandroidtester</Id>
+						.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="[a-z]+" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Category" type="CategoryType"
+				maxOccurs="1" minOccurs="1">
+			</xs:element>
+
+
+			<xs:element name="OS" type="OsType" maxOccurs="1"
+				minOccurs="1">
+			</xs:element>
+			<xs:element name="VendorName" type="xs:string" maxOccurs="1"
+				minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						The VendorName element defines the vendor name
+						of the AppVet tool service. For example,
+						<Vendor>Example, Inc.</Vendor>
+						.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="VendorWebsite" type="xs:anyURI"
+				maxOccurs="1" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						The VendorWebsite element defines the vendor's
+						website. For example,
+						<VendorWebsite>
+							https://www.example.com
+						</VendorWebsite>
+						.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AppSubmit" maxOccurs="1" minOccurs="1"
+				type="AppSubmitType">
+			</xs:element>
+			<xs:element name="Restriction" type="RestrictionType" maxOccurs="1" minOccurs="1"></xs:element>
+			<xs:element name="AuthenticationRequired" type="xs:boolean"
+				maxOccurs="1" minOccurs="1">
+			</xs:element>
+			<xs:element name="AuthenticationParameters" type="xs:string"
+				maxOccurs="1" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						A comma-delimitted set of authentication
+						parameters. Such parameters may include
+						username, password, license key, pin, etc.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ReportFile" type="ReportFileType"
+				maxOccurs="1" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						The ReportFile element defines the file type of
+						the tool service report. The ReportFormat
+						element must be TXT, PDF, HTML, or RTF. For
+						example,
+						<ReportFile>TXT</ReportFile>
+						.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ProtocolType">
+		<xs:annotation>
+			<xs:documentation>This type defines a remote AppVet-compatible tool
+				service
+				as synchronous or asynchronous.
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:choice>
+			<xs:element name="Synchronous" type="SynchronousType"
+				maxOccurs="1" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						The Synchronous element defines the
+						properties of an
+						AppVet synchronous tool
+						service.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MultiSynchronous" type="MultiSynchronousType"
+				maxOccurs="1" minOccurs="1"></xs:element>
+			<xs:element name="Asynchronous" type="AsynchronousType"
+				maxOccurs="1" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						The Asynchronous element defines the
+						properties of an
+						AppVet asynchronous tool
+						service.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Push" type="PushType" maxOccurs="1"
+				minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						The Push element defines the properties of
+						an AppVet
+						push tool service.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Internal" type="InternalType"
+				maxOccurs="1" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						The Internal element defines the properties
+						of an
+						AppVet internal tool.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+
+	</xs:complexType>
+
+	<xs:simpleType name="CategoryType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PREPROCESSOR" />
+			<xs:enumeration value="TESTTOOL" />
+			<!-- Use REPORT when tool is not accessible but report is uploaded manually. -->
+			<xs:enumeration value="REPORT" />
+			<xs:enumeration value="AUDIT" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="OsType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ANDROID" />
+			<xs:enumeration value="IOS" />
+			<xs:enumeration value="WINDOWS" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="AppSubmitType">
+		<xs:restriction base="xs:string">
+			<!-- APPFILE is a binary app file -->
+			<xs:enumeration value="APP_FILE" />
+			<!-- APPNAME is a string defining the app name, key, etc. -->
+			<xs:enumeration value="APP_NAME" />
+			<!-- No app processed, reports are manually uploaded. -->
+			<xs:enumeration value="NONE" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ReportFileType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="TXT" />
+			<xs:enumeration value="HTML" />
+			<xs:enumeration value="PDF" />
+			<xs:enumeration value="RTF" />
+			<xs:enumeration value="JSON" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="SynchronousType">
+		<xs:annotation>
+			<xs:documentation>A synchronous protocol will send an HTTP Request to a tool service
+and receive a HTTP Response from the tool service. If successfull,
+the HTTP Response will include the tool service's report and risk
+assessment. This differs from an asynchronous protocol that 
+sends an HTTP Request to a tool service, but the HTTP Response
+only includes an acknowledge HTTP code. After the tool service
+has completed its analysis, it will then send a new HTTP Request to
+AppVet containing its report and risk assessment.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Request" type="HTTPRequestType"
+				minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The Request element defines an HTML Form to be sent
+						to an AppVet tool service via an HTTP Request message.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Response" type="HTTPResponseType"
+				maxOccurs="1" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The Response element defines properties for the
+						response from an AppVet synchronous tool service.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<xs:complexType name="PollingType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="MaxIterations" type="xs:int" minOccurs="1"
+				maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						The maximum number of polling iterations to be
+						executed.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Sleep" type="xs:int" maxOccurs="1" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						The amount of time to sleep (in milliseconds)
+						before
+						starting the next poll.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+
+
+	</xs:complexType>
+
+	<xs:complexType name="AsynchronousType">
+		<xs:annotation>
+			<xs:documentation>An asynchronous protocol 
+sends an HTTP Request to a tool service and receives an HTTP Response
+that includes only an acknowledgement HTTP code. After the tool service
+has completed its analysis, it will then send a new HTTP Request to
+AppVet containing its report and risk assessment.
+
+This differs from a synchronous protocol will send an HTTP Request to a tool service
+and receive a HTTP Response from the tool service. If successfull,
+the HTTP Response will include the tool service's report and risk
+assessment. </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Request" type="HTTPRequestType"
+				minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						The Request element defines an HTML Form to be
+						sent
+						to an AppVet tool service via an HTTP
+						Request message.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Response" type="HTTPResponseType"
+				maxOccurs="1" minOccurs="1"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PushType">
+		<xs:sequence>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="InternalType">
+		<xs:sequence>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="HTTPRequestType">
+		<xs:annotation>
+			<xs:documentation>The HTTP Request is used by AppVet to send an app to a
+				tool service or
+				by an asynchronous tool service to send a report to
+				AppVet.
+
+				For APPVET->TOOL SERVICE
+
+				file: The app file to send to the
+				tool service.
+				username: The user ID of the tool service account
+				(optional)
+				password: The password for the tool service account
+				(optional)
+				appid: The AppVet ID of the app (for asynchronous tools
+				only)
+
+
+				For ASYNCHRONOUS SERVICE->APPVET
+
+				command: The AppVet command to
+				submit reports (use 'SUBMIT_REPORT')
+				appid: The AppVet ID of the
+				associated app
+				username: The AppVet user ID
+				password: The AppVet
+				password
+				file: The report file
+				toolrisk: The risk assessment generated
+				by the tool (i.e., 'LOW', 'MODERATE',
+				'HIGH', 'ERROR')
+
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="URL" type="xs:anyURI" minOccurs="1"
+				maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						The URL element defines the URL of the AppVet
+						tool service.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Method" type="MethodType" maxOccurs="1"
+				minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						The Method element defines the HTTP action to be
+						invoked (i.e., 'GET' or 'POST').
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AuthenticationRequired" type="xs:boolean"
+				maxOccurs="1" minOccurs="1">
+			</xs:element>
+			<xs:element name="AuthenticationParameter" type="ParameterType" maxOccurs="unbounded" minOccurs="0"></xs:element>
+			<xs:element name="Parameter" type="ParameterType"
+				minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>
+						The FormParameter element defines the HTML form
+						parameters to be sent to the tool service. For
+						asynchronous tool services, the form parameters
+						must include the parameter "appid" to allow the
+						reports to be matched by AppVet to their
+						associated app. For services that require login,
+						the service must use 'userid' and 'password'
+						parameters.
+
+
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Polling" type="PollingType" maxOccurs="1"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						If polling is required, this parameter should
+						not be null.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="AsynchronousResponseType">
+		<xs:sequence>
+			<xs:element name="ReportPayload" type="xs:boolean" default="false"
+				maxOccurs="1" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The ReportPayload element defines whether a report
+						is contained in the response from an AppVet asynchronous service.
+						The value of ReportPayload for asynchronous services must always
+						be false.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ParameterType">
+		<xs:sequence>
+			<xs:element name="Name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The Name element defines the name of the parameter.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Value" type="xs:string" default="DEFINED_AT_RUNTIME">
+				<xs:annotation>
+					<xs:documentation>The Value element defines the value of the parameter
+						element.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="RestrictionType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="NONE" />
+			<xs:enumeration value="RESTRICTED" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="MethodType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="POST" />
+			<xs:enumeration value="GET" />
+		</xs:restriction>
+	</xs:simpleType>
+
+
+	<xs:complexType name="HTTPResponseType">
+		<xs:annotation>
+			<xs:documentation>The HTTP Response type contains up to three elements:
+				AppVetRiskHeaderName, ReportPayload, and StatusCode.
+
+				For SYNCHRONOUS
+				SERVICES
+
+				For synchronous services, the HTTP response should contain a
+				payload
+				consisting of the tool report (or null) and
+				have the HTTP
+				header parameter 'toolrisk' that defines the assessed risk
+				(i.e.,
+				'LOW', 'MODERATE', 'HIGH', or 'ERROR').
+				In addition, HTTP code '200'
+				indicating OK or '400' indicating Bad
+				Request must be used.
+
+				For
+				ASYNCHRONOUS SERVICES
+
+				For asynchronous services, the HTTP response is
+				used to indicate
+				correct receipt of an app by the tool and is
+				therefore empty but with an HTTP code of '202' incidating correct
+				receipt of
+				the app or '400' bad request.
+
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AppVetRiskHeaderName" type="xs:string"
+				default="APPVET_TOOL_RESULT" maxOccurs="1" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						The AppVetRiskHeaderName element defines the
+						HTTP
+						Response Header name for a synchronous tool
+						service's risk
+						assessment category (ERROR, HIGH,
+						MODERATE, or LOW). For
+						synchronous services, the
+						AppVetResultHeaderName value should be
+						set to
+						"toolrisk". For all service types, the
+						AppVetRiskHeaderName
+						element should not be set.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ReportPayload" type="xs:boolean" default="true"
+				maxOccurs="1" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						The ReportPayload element defines whether the
+						response message contains a report file (in
+						string form). If no
+						report
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PayloadType" type="xs:string" maxOccurs="1"
+				minOccurs="0"></xs:element>
+			<xs:element name="StatusCode" type="xs:string" maxOccurs="unbounded"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						This is the HTTP status code returned by the
+						tool
+						service.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SubmitType">
+		<xs:sequence>
+			<xs:element name="SubmitAppFile" type="xs:string"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MultiSynchronousType">
+		<xs:annotation>
+			<xs:documentation>A multisynchronous type defines multiple
+				synchronous
+				transactions that would occur for
+				a REST API. For example, one
+				transaction
+				might be used to submit an app which returns
+				an app ID
+				while another transaction might involve
+				using that app ID to get the
+				app's processing status
+				or report.
+
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+
+			<xs:element name="SubmitAppId" type="SubmitAppIdType"
+				maxOccurs="1" minOccurs="0">
+			</xs:element>
+
+			<xs:choice>
+				<xs:element name="SubmitAppFile" type="SubmitAppType"
+					maxOccurs="1" minOccurs="1">
+				</xs:element>
+				<xs:element name="SubmitAppName" type="SubmitAppType"
+					maxOccurs="1" minOccurs="1"></xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<xs:complexType name="SubmitAppType">
+		<xs:choice>
+			<xs:element name="GetAppId" type="SynchronousType"
+				maxOccurs="1" minOccurs="1"></xs:element>
+			<xs:element name="GetAppReport" type="SynchronousType"
+				maxOccurs="1" minOccurs="1"></xs:element>
+		</xs:choice>
+	</xs:complexType>
+
+
+	<xs:complexType name="SubmitAppIdType">
+		<xs:sequence>
+			<xs:element name="GetAppStatus" type="SynchronousType"
+				maxOccurs="1" minOccurs="0"></xs:element>
+			<xs:element name="GetAppReport" type="SynchronousType"
+				maxOccurs="1" minOccurs="1"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>
