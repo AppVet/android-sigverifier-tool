@@ -53,343 +53,343 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  */
 public class Service extends HttpServlet {
 
-    private static final long serialVersionUID = 1L;
-    private static final String reportName = "report";
-    private static final Logger log = Properties.log;
-    private static String appDirPath = null;
-    private String appFilePath = null;
-    private String reportFilePath = null;
-    private String fileName = null;
-    private String appId = null;
-    private String command = null;
-    private StringBuffer reportBuffer = null;
+	private static final long serialVersionUID = 1L;
+	private static final String reportName = "report";
+	private static final Logger log = Properties.log;
+	private static String appDirPath = null;
+	private String appFilePath = null;
+	private String reportFilePath = null;
+	private String fileName = null;
+	private String appId = null;
+	private String command = null;
+	private StringBuffer reportBuffer = null;
 
-    /** CHANGE (START): Add expected HTTP request parameters **/
-    /** CHANGE (END): Add expected HTTP request parameters **/
-    public Service() {
-	super();
-    }
-
-    /*
-     * // AppVet tool services will rarely use HTTP GET protected void
-     * doGet(HttpServletRequest request, HttpServletResponse response) throws
-     * ServletException, IOException {
-     */
-
-    protected void doPost(HttpServletRequest request,
-	    HttpServletResponse response) throws ServletException, IOException {
-	// Get received HTTP parameters and file upload
-	FileItemFactory factory = new DiskFileItemFactory();
-	ServletFileUpload upload = new ServletFileUpload(factory);
-	List items = null;
-	FileItem fileItem = null;
-
-	try {
-	    items = upload.parseRequest(request);
-	} catch (FileUploadException e) {
-	    e.printStackTrace();
+	/** CHANGE (START): Add expected HTTP request parameters **/
+	/** CHANGE (END): Add expected HTTP request parameters **/
+	public Service() {
+		super();
 	}
 
-	// Get received items
-	Iterator iter = items.iterator();
-	FileItem item = null;
-
-	while (iter.hasNext()) {
-	    item = (FileItem) iter.next();
-	    if (item.isFormField()) {
-		// Get HTML form parameters
-		String incomingParameter = item.getFieldName();
-		String incomingValue = item.getString();
-		if (incomingParameter.equals("appid")) {
-		    appId = incomingValue;
-		}
-		/** CHANGE (START): Get other tools-specific form parameters **/
-		/** CHANGE (END): Get other tools-specific form parameters **/
-	    } else {
-		// item should now hold the received file
-		if (item != null) {
-		    fileItem = item;
-		    log.debug("Received file: " + fileItem.getName());
-		}
-	    }
-	}
-
-	if (appId == null) {
-	    // All tool services require an AppVet app ID
-	    HttpUtil.sendHttp400(response, "No app ID specified");
-	    return;
-	}
-
-	if (fileItem != null) {
-	    // Get app file
-	    fileName = FileUtil.getFileName(fileItem.getName());
-	    if (!fileName.endsWith(".apk")) {
-		HttpUtil.sendHttp400(response,
-			"Invalid app file: " + fileItem.getName());
-		return;
-	    }
-	    // Create app directory
-	    appDirPath = Properties.TEMP_DIR + "/" + appId;
-	    File appDir = new File(appDirPath);
-	    if (!appDir.exists()) {
-		appDir.mkdir();
-	    }
-	    // Create report path
-	    reportFilePath = Properties.TEMP_DIR + "/" + appId + "/"
-		    + reportName + "." + Properties.reportFormat.toLowerCase();
-
-	    appFilePath = Properties.TEMP_DIR + "/" + appId + "/" + fileName;
-	    log.debug("App file path: " + appFilePath);
-	    if (!FileUtil.saveFileUpload(fileItem, appFilePath)) {
-		HttpUtil.sendHttp500(response, "Could not save uploaded file");
-		return;
-	    }
-	} else {
-	    HttpUtil.sendHttp400(response, "No app was received.");
-	    return;
-	}
-
-	// Use if reading command from ToolProperties.xml. Otherwise,
-	// comment-out if using custom command (called by customExecute())
-	command = getCommand();
-
-	// If asynchronous, send acknowledgement back to AppVet now
-	if (Properties.protocol.equals(Protocol.ASYNCHRONOUS.name())) {
-	    HttpUtil.sendHttp202(response, "Received app " + appId
-		    + " for processing.");
-	}
 	/*
-	 * CHANGE: Select either execute() to execute a native OS command or
-	 * customExecute() to execute your own custom code. Make sure that the
-	 * unused method call is commented-out.
+	 * // AppVet tool services will rarely use HTTP GET protected void
+	 * doGet(HttpServletRequest request, HttpServletResponse response) throws
+	 * ServletException, IOException {
 	 */
-	reportBuffer = new StringBuffer();
-	boolean succeeded = execute(command, reportBuffer);
-	// boolean succeeded = customExecute(reportBuffer);
-	if (!succeeded) {
-	    log.error("Error detected: " + reportBuffer.toString());
-	    String errorReport = ReportUtil
-		    .getHtmlReport(
-			    response,
-			    fileName,
-			    ToolStatus.ERROR,
-			    reportBuffer.toString(),
-			    "Description: \tApp is signed.\n\n",
-			    "Description: \tApp is unsigned or incorrectly signed.\n\n",
-			    null,
-			    "Description: \tError or exception processing app.\n\n");
-	    // Send report to AppVet
-	    if (Properties.protocol.equals(Protocol.SYNCHRONOUS.name())) {
-		// Send back ASCII in HTTP Response
-		ReportUtil.sendInHttpResponse(response, errorReport,
-			ToolStatus.ERROR);
-	    } else if (Properties.protocol.equals(Protocol.ASYNCHRONOUS.name())) {
-		// Send report file in new HTTP Request to AppVet
-		if (FileUtil.saveReport(errorReport, reportFilePath)) {
-		    ReportUtil.sendInNewHttpRequest(appId, reportFilePath,
-			    ToolStatus.ERROR);
-		}
-	    }
-	    return;
-	}
 
-	// Analyze report and generate tool status
-	log.debug("Analyzing report for " + appFilePath);
-	ToolStatus reportStatus = ReportUtil.analyzeReport(reportBuffer
-		.toString());
-	log.debug("Result: " + reportStatus.name());
-	String reportContent = null;
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		// Get received HTTP parameters and file upload
+		FileItemFactory factory = new DiskFileItemFactory();
+		ServletFileUpload upload = new ServletFileUpload(factory);
+		List items = null;
+		FileItem fileItem = null;
 
-	// Get report
-	if (Properties.reportFormat.equals(ReportFormat.HTML.name())) {
-	    reportContent = ReportUtil
-		    .getHtmlReport(
-			    response,
-			    fileName,
-			    reportStatus,
-			    reportBuffer.toString(),
-			    "Description: \tApp is signed (Note: some warnings may exist. See below for details).\n\n",
-			    "Description: \tApp is unsigned or incorrectly signed.\n\n",
-			    "Description: \tApp is unsigned or incorrectly signed.\n\n",
-			    "Description: \tError or exception processing app.\n\n");
-	} else if (Properties.reportFormat.equals(ReportFormat.TXT.name())) {
-	    reportContent = getTxtReport();
-	} else if (Properties.reportFormat.equals(ReportFormat.PDF.name())) {
-	    reportContent = getPdfReport();
-	} else if (Properties.reportFormat.equals(ReportFormat.JSON.name())) {
-	    reportContent = getJsonReport();
-	}
-
-	// If report is null or empty, stop processing
-	if (reportContent == null || reportContent.isEmpty()) {
-	    log.error("Tool report is null or empty");
-	    return;
-	}
-
-	// Send report to AppVet
-	if (Properties.protocol.equals(Protocol.SYNCHRONOUS.name())) {
-	    // Send back ASCII in HTTP Response
-	    ReportUtil
-		    .sendInHttpResponse(response, reportContent, reportStatus);
-	} else if (Properties.protocol.equals(Protocol.ASYNCHRONOUS.name())) {
-	    // Send report file in new HTTP Request to AppVet
-	    if (FileUtil.saveReport(reportContent, reportFilePath)) {
-		ReportUtil.sendInNewHttpRequest(appId, reportFilePath,
-			reportStatus);
-	    }
-	}
-
-	// Clean up
-	if (!Properties.keepApps) {
-	    if (FileUtil.deleteDirectory(new File(appDirPath))) {
-		log.debug("Deleted " + appFilePath);
-	    } else {
-		log.warn("Could not delete " + appFilePath);
-	    }
-	}
-
-	reportBuffer = null;
-	System.gc();
-    }
-
-    public String getCommand() {
-	// Get command from ToolProperties.xml file
-	String cmd1 = Properties.command;
-	String cmd2 = null;
-	if (cmd1.indexOf(Properties.APP_FILE_PATH) > -1) {
-	    // Add app file path
-	    cmd2 = cmd1.replace(Properties.APP_FILE_PATH, appFilePath);
-	} else {
-	    cmd2 = cmd1;
-	}
-
-	log.debug("full command: " + cmd2);
-	return cmd2;
-    }
-
-    private static boolean execute(String command, StringBuffer output) {
-	List<String> commandArgs = Arrays.asList(command.split("\\s+"));
-	ProcessBuilder pb = new ProcessBuilder(commandArgs);
-	Process process = null;
-	IOThreadHandler outputHandler = null;
-	IOThreadHandler errorHandler = null;
-	int exitValue = -1;
-	try {
-	    if (command == null || command.isEmpty()) {
-		log.error("Command is null or empty");
-		return false;
-	    }
-	    log.debug("Executing " + command);
-	    process = pb.start();
-	    outputHandler = new IOThreadHandler(process.getInputStream());
-	    outputHandler.start();
-	    errorHandler = new IOThreadHandler(process.getErrorStream());
-	    errorHandler.start();
-	    if (process.waitFor(Properties.commandTimeout,
-		    TimeUnit.MILLISECONDS)) {
-		// Process has waited and exited within the timeout
-		exitValue = process.exitValue();
-		if (exitValue == 0) {
-		    log.debug("Command terminated normally: \n"
-			    + outputHandler.getOutput() + "\nErrors: "
-			    + errorHandler.getOutput());
-		    StringBuilder resultOut = outputHandler.getOutput();
-		    output.append(resultOut);
-		    return true;
-		} else {
-		    log.error("Command terminated normally: \n"
-			    + outputHandler.getOutput() + "\nErrors: "
-			    + errorHandler.getOutput());
-		    StringBuilder resultError = errorHandler.getOutput();
-		    output.append(resultError);
-		    return false;
-		}
-	    } else {
-		// Process exceed timeout or was interrupted
-		log.error("Command timed-out or was interrupted: \n"
-			+ outputHandler.getOutput() + "\nErrors: "
-			+ errorHandler.getOutput());
-		StringBuilder resultOutput = outputHandler.getOutput();
-		StringBuilder resultError = errorHandler.getOutput();
-		if (resultOutput != null) {
-		    output.append(resultOutput);
-		    return false;
-		} else if (resultError != null) {
-		    output.append(resultError);
-		} else {
-		    output.append(Properties.toolName + " timed-out");
-		}
-		return false;
-	    }
-	} catch (IOException e) {
-	    e.printStackTrace();
-	    return false;
-	} catch (InterruptedException e) {
-	    e.printStackTrace();
-	    return false;
-	} finally {
-	    if (outputHandler.isAlive()) {
 		try {
-		    outputHandler.inputStream.close();
-		} catch (IOException e) {
-		    e.printStackTrace();
+			items = upload.parseRequest(request);
+		} catch (FileUploadException e) {
+			e.printStackTrace();
 		}
-	    }
-	    if (errorHandler.isAlive()) {
+
+		// Get received items
+		Iterator iter = items.iterator();
+		FileItem item = null;
+
+		while (iter.hasNext()) {
+			item = (FileItem) iter.next();
+			if (item.isFormField()) {
+				// Get HTML form parameters
+				String incomingParameter = item.getFieldName();
+				String incomingValue = item.getString();
+				if (incomingParameter.equals("appid")) {
+					appId = incomingValue;
+				}
+				/** CHANGE (START): Get other tools-specific form parameters **/
+				/** CHANGE (END): Get other tools-specific form parameters **/
+			} else {
+				// item should now hold the received file
+				if (item != null) {
+					fileItem = item;
+					log.debug("Received file: " + fileItem.getName());
+				}
+			}
+		}
+
+		if (appId == null) {
+			// All tool services require an AppVet app ID
+			HttpUtil.sendHttp400(response, "No app ID specified");
+			return;
+		}
+
+		if (fileItem != null) {
+			// Get app file
+			fileName = FileUtil.getFileName(fileItem.getName());
+			if (!fileName.endsWith(".apk")) {
+				HttpUtil.sendHttp400(response,
+						"Invalid app file: " + fileItem.getName());
+				return;
+			}
+			// Create app directory
+			appDirPath = Properties.TEMP_DIR + "/" + appId;
+			File appDir = new File(appDirPath);
+			if (!appDir.exists()) {
+				appDir.mkdir();
+			}
+			// Create report path
+			reportFilePath = Properties.TEMP_DIR + "/" + appId + "/"
+					+ reportName + "." + Properties.reportFormat.toLowerCase();
+
+			appFilePath = Properties.TEMP_DIR + "/" + appId + "/" + fileName;
+			log.debug("App file path: " + appFilePath);
+			if (!FileUtil.saveFileUpload(fileItem, appFilePath)) {
+				HttpUtil.sendHttp500(response, "Could not save uploaded file");
+				return;
+			}
+		} else {
+			HttpUtil.sendHttp400(response, "No app was received.");
+			return;
+		}
+
+		// Use if reading command from ToolProperties.xml. Otherwise,
+		// comment-out if using custom command (called by customExecute())
+		command = getCommand();
+
+		// If asynchronous, send acknowledgement back to AppVet now
+		if (Properties.protocol.equals(Protocol.ASYNCHRONOUS.name())) {
+			HttpUtil.sendHttp202(response, "Received app " + appId
+					+ " for processing.");
+		}
+		/*
+		 * CHANGE: Select either execute() to execute a native OS command or
+		 * customExecute() to execute your own custom code. Make sure that the
+		 * unused method call is commented-out.
+		 */
+		reportBuffer = new StringBuffer();
+		boolean succeeded = execute(command, reportBuffer);
+		// boolean succeeded = customExecute(reportBuffer);
+		if (!succeeded) {
+			log.error("Error detected: " + reportBuffer.toString());
+			String errorReport = ReportUtil
+					.getHtmlReport(
+							response,
+							fileName,
+							ToolStatus.ERROR,
+							reportBuffer.toString(),
+							"Description: \tApp is signed.\n\n",
+							"Description: \tApp is unsigned or incorrectly signed.\n\n",
+							null,
+							"Description: \tError or exception processing app.\n\n");
+			// Send report to AppVet
+			if (Properties.protocol.equals(Protocol.SYNCHRONOUS.name())) {
+				// Send back ASCII in HTTP Response
+				ReportUtil.sendInHttpResponse(response, errorReport,
+						ToolStatus.ERROR);
+			} else if (Properties.protocol.equals(Protocol.ASYNCHRONOUS.name())) {
+				// Send report file in new HTTP Request to AppVet
+				if (FileUtil.saveReport(errorReport, reportFilePath)) {
+					ReportUtil.sendInNewHttpRequest(appId, reportFilePath,
+							ToolStatus.ERROR);
+				}
+			}
+			return;
+		}
+
+		// Analyze report and generate tool status
+		log.debug("Analyzing report for " + appFilePath);
+		ToolStatus reportStatus = ReportUtil.analyzeReport(reportBuffer
+				.toString());
+		log.debug("Result: " + reportStatus.name());
+		String reportContent = null;
+
+		// Get report
+		if (Properties.reportFormat.equals(ReportFormat.HTML.name())) {
+			reportContent = ReportUtil
+					.getHtmlReport(
+							response,
+							fileName,
+							reportStatus,
+							reportBuffer.toString(),
+							"Description: \tApp is signed (Note: some warnings may exist. See below for details).\n\n",
+							"Description: \tApp is unsigned or incorrectly signed.\n\n",
+							"Description: \tApp is unsigned or incorrectly signed.\n\n",
+							"Description: \tError or exception processing app.\n\n");
+		} else if (Properties.reportFormat.equals(ReportFormat.TXT.name())) {
+			reportContent = getTxtReport();
+		} else if (Properties.reportFormat.equals(ReportFormat.PDF.name())) {
+			reportContent = getPdfReport();
+		} else if (Properties.reportFormat.equals(ReportFormat.JSON.name())) {
+			reportContent = getJsonReport();
+		}
+
+		// If report is null or empty, stop processing
+		if (reportContent == null || reportContent.isEmpty()) {
+			log.error("Tool report is null or empty");
+			return;
+		}
+
+		// Send report to AppVet
+		if (Properties.protocol.equals(Protocol.SYNCHRONOUS.name())) {
+			// Send back ASCII in HTTP Response
+			ReportUtil
+			.sendInHttpResponse(response, reportContent, reportStatus);
+		} else if (Properties.protocol.equals(Protocol.ASYNCHRONOUS.name())) {
+			// Send report file in new HTTP Request to AppVet
+			if (FileUtil.saveReport(reportContent, reportFilePath)) {
+				ReportUtil.sendInNewHttpRequest(appId, reportFilePath,
+						reportStatus);
+			}
+		}
+
+		// Clean up
+		if (!Properties.keepApps) {
+			if (FileUtil.deleteDirectory(new File(appDirPath))) {
+				log.debug("Deleted " + appFilePath);
+			} else {
+				log.warn("Could not delete " + appFilePath);
+			}
+		}
+
+		reportBuffer = null;
+		System.gc();
+	}
+
+	public String getCommand() {
+		// Get command from ToolProperties.xml file
+		String cmd1 = Properties.command;
+		String cmd2 = null;
+		if (cmd1.indexOf(Properties.APP_FILE_PATH) > -1) {
+			// Add app file path
+			cmd2 = cmd1.replace(Properties.APP_FILE_PATH, appFilePath);
+		} else {
+			cmd2 = cmd1;
+		}
+
+		log.debug("full command: " + cmd2);
+		return cmd2;
+	}
+
+	private static boolean execute(String command, StringBuffer output) {
+		List<String> commandArgs = Arrays.asList(command.split("\\s+"));
+		ProcessBuilder pb = new ProcessBuilder(commandArgs);
+		Process process = null;
+		IOThreadHandler outputHandler = null;
+		IOThreadHandler errorHandler = null;
+		int exitValue = -1;
 		try {
-		    errorHandler.inputStream.close();
+			if (command == null || command.isEmpty()) {
+				log.error("Command is null or empty");
+				return false;
+			}
+			log.debug("Executing " + command);
+			process = pb.start();
+			outputHandler = new IOThreadHandler(process.getInputStream());
+			outputHandler.start();
+			errorHandler = new IOThreadHandler(process.getErrorStream());
+			errorHandler.start();
+			if (process.waitFor(Properties.commandTimeout,
+					TimeUnit.MILLISECONDS)) {
+				// Process has waited and exited within the timeout
+				exitValue = process.exitValue();
+				if (exitValue == 0) {
+					log.debug("Command terminated normally: \n"
+							+ outputHandler.getOutput() + "\nErrors: "
+							+ errorHandler.getOutput());
+					StringBuilder resultOut = outputHandler.getOutput();
+					output.append(resultOut);
+					return true;
+				} else {
+					log.error("Command terminated abnormally: \n"
+							+ outputHandler.getOutput() + "\nErrors: "
+							+ errorHandler.getOutput());
+					StringBuilder resultError = errorHandler.getOutput();
+					output.append(resultError);
+					return false;
+				}
+			} else {
+				// Process exceed timeout or was interrupted
+				log.error("Command timed-out or was interrupted: \n"
+						+ outputHandler.getOutput() + "\nErrors: "
+						+ errorHandler.getOutput());
+				StringBuilder resultOutput = outputHandler.getOutput();
+				StringBuilder resultError = errorHandler.getOutput();
+				if (resultOutput != null) {
+					output.append(resultOutput);
+					return false;
+				} else if (resultError != null) {
+					output.append(resultError);
+				} else {
+					output.append(Properties.toolName + " timed-out");
+				}
+				return false;
+			}
 		} catch (IOException e) {
-		    e.printStackTrace();
+			e.printStackTrace();
+			return false;
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			if (outputHandler.isAlive()) {
+				try {
+					outputHandler.inputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (errorHandler.isAlive()) {
+				try {
+					errorHandler.inputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (process.isAlive()) {
+				process.destroy();
+			}
 		}
-	    }
-	    if (process.isAlive()) {
-		process.destroy();
-	    }
+
 	}
 
-    }
+	private static class IOThreadHandler extends Thread {
+		private InputStream inputStream;
+		private StringBuilder output = new StringBuilder();
+		private static final String lineSeparator = System
+				.getProperty("line.separator");;
 
-    private static class IOThreadHandler extends Thread {
-	private InputStream inputStream;
-	private StringBuilder output = new StringBuilder();
-	private static final String lineSeparator = System
-		.getProperty("line.separator");;
+				IOThreadHandler(InputStream inputStream) {
+					this.inputStream = inputStream;
+				}
 
-	IOThreadHandler(InputStream inputStream) {
-	    this.inputStream = inputStream;
+				public void run() {
+					Scanner br = null;
+					try {
+						br = new Scanner(new InputStreamReader(inputStream));
+						String line = null;
+						while (br.hasNextLine()) {
+							line = br.nextLine();
+							output.append(line + lineSeparator);
+						}
+					} finally {
+						br.close();
+					}
+				}
+
+				public StringBuilder getOutput() {
+					return output;
+				}
 	}
 
-	public void run() {
-	    Scanner br = null;
-	    try {
-		br = new Scanner(new InputStreamReader(inputStream));
-		String line = null;
-		while (br.hasNextLine()) {
-		    line = br.nextLine();
-		    output.append(line + lineSeparator);
-		}
-	    } finally {
-		br.close();
-	    }
+	// TODO
+	public String getTxtReport() {
+		return null;
 	}
 
-	public StringBuilder getOutput() {
-	    return output;
+	// TODO
+	public String getPdfReport() {
+		return null;
 	}
-    }
 
-    // TODO
-    public String getTxtReport() {
-	return null;
-    }
-
-    // TODO
-    public String getPdfReport() {
-	return null;
-    }
-
-    // TODO
-    public String getJsonReport() {
-	return null;
-    }
+	// TODO
+	public String getJsonReport() {
+		return null;
+	}
 }
