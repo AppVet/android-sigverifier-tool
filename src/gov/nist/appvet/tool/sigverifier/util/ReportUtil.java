@@ -21,6 +21,7 @@ package gov.nist.appvet.tool.sigverifier.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
@@ -28,6 +29,8 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -150,6 +153,10 @@ public class ReportUtil {
 	    log.debug("Sending report file to AppVet");
 	    final HttpResponse response = httpClient.execute(httpPost);
 	    log.debug("Received from AppVet: " + response.getStatusLine());
+	    HttpEntity httpEntity = response.getEntity();
+	    InputStream is = httpEntity.getContent();
+	    String result = IOUtils.toString(is, "UTF-8"); 
+	    log.info(result);
 	    // Clean up
 	    httpPost = null;
 	    return true;
