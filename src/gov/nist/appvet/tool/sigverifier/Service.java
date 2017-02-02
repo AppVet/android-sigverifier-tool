@@ -305,14 +305,14 @@ public class Service extends HttpServlet {
 					log.debug("Command terminated normally: \n"
 							+ outputHandler.getOutput() + "\nErrors: "
 							+ errorHandler.getOutput());
-					StringBuilder resultOut = outputHandler.getOutput();
+					StringBuffer resultOut = outputHandler.getOutput();
 					output.append(resultOut);
 					return true;
 				} else {
 					log.error("Command terminated abnormally: \n"
 							+ outputHandler.getOutput() + "\nErrors: "
 							+ errorHandler.getOutput());
-					StringBuilder resultError = errorHandler.getOutput();
+					StringBuffer resultError = errorHandler.getOutput();
 					output.append(resultError);
 					return false;
 				}
@@ -321,8 +321,8 @@ public class Service extends HttpServlet {
 				log.error("Command timed-out or was interrupted: \n"
 						+ outputHandler.getOutput() + "\nErrors: "
 						+ errorHandler.getOutput());
-				StringBuilder resultOutput = outputHandler.getOutput();
-				StringBuilder resultError = errorHandler.getOutput();
+				StringBuffer resultOutput = outputHandler.getOutput();
+				StringBuffer resultError = errorHandler.getOutput();
 				if (resultOutput != null) {
 					output.append(resultOutput);
 					return false;
@@ -358,12 +358,11 @@ public class Service extends HttpServlet {
 				process.destroy();
 			}
 		}
-
 	}
 
 	private static class IOThreadHandler extends Thread {
 		private InputStream inputStream;
-		private StringBuilder output = new StringBuilder();
+		private StringBuffer output = new StringBuffer();
 		private static final String lineSeparator = System
 				.getProperty("line.separator");;
 
@@ -373,19 +372,17 @@ public class Service extends HttpServlet {
 
 				public void run() {
 					Scanner br = null;
-					try {
-						br = new Scanner(new InputStreamReader(inputStream));
-						String line = null;
-						while (br.hasNextLine()) {
-							line = br.nextLine();
-							output.append(line + lineSeparator);
-						}
-					} finally {
-						br.close();
+
+					br = new Scanner(new InputStreamReader(inputStream));
+					String line = null;
+					while (br.hasNextLine()) {
+						line = br.nextLine();
+						output.append(line + lineSeparator);
 					}
+					br.close();
 				}
 
-				public StringBuilder getOutput() {
+				public StringBuffer getOutput() {
 					return output;
 				}
 	}
