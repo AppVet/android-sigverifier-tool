@@ -34,7 +34,6 @@ import java.util.ArrayList;
  */
 public class Properties {
     
-	
     /** Github release version number. */
     public static final String version = "1.1";
 

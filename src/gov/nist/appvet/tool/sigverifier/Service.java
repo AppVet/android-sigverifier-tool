@@ -59,7 +59,6 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  * This class implements a synchronous tool service.
  */
 public class Service extends HttpServlet {
-
 	private static final long serialVersionUID = 1L;
 	private static final String reportName = "report";
 	private static final Logger log = Properties.log;
