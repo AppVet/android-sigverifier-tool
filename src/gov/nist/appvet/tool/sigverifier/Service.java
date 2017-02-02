@@ -28,10 +28,17 @@ import gov.nist.appvet.tool.sigverifier.util.ReportUtil;
 import gov.nist.appvet.tool.sigverifier.util.ToolStatus;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
@@ -249,6 +256,11 @@ public class Service extends HttpServlet {
 		}
 
 		reportBuffer = null;
+		
+		// Save logs if necessary
+		saveLog();
+		
+		// Clean up
 		System.gc();
 	}
 
@@ -376,6 +388,88 @@ public class Service extends HttpServlet {
 				public StringBuilder getOutput() {
 					return output;
 				}
+	}
+	
+	public static synchronized void saveLog() {
+		// Check if log has been saved per save frequency
+		boolean logExists = false;
+		
+		// Get current month
+		java.util.Date date = new Date();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		int currentMonth = cal.get(Calendar.MONTH) + 1; // cal.get() is zero-based
+		int currentDay = cal.get(Calendar.DAY_OF_MONTH);
+		int currentYear = cal.get(Calendar.YEAR);
+		String currentDayStr = null;
+		if (currentDay >= 1 && currentDay <= 9) {
+			currentDayStr = "0" + currentDay;
+		} else {
+			currentDayStr = currentDay + "";
+		}
+		String currentMonthStr = null;
+		if (currentMonth >= 1 && currentMonth <= 9) {
+			currentMonthStr = "0" + currentMonth;
+		} else {
+			currentMonthStr = currentMonth + "";
+		}
+		String currentYearStr = currentYear + "";
+
+		//log.debug("CURRENT MONTH: " + currentMonthStr);
+		//log.debug("CURRENT DAY: " + currentDayStr);
+		//log.debug("CURRENT YEAR: " + currentYearStr);
+
+		// Scan log files in /logs directory. The name format for log files is
+		// MM-DD-YYYY_appvet_log.txt
+		String kryptowireLogsPath = Properties.ANDROID_SIGVERIFIER_FILES_HOME + "/logs";
+
+		File folder = new File(kryptowireLogsPath);
+		if (!folder.exists()) {
+			log.error("Kryptowire logs directory does not exist");
+			return;
+		}
+		File[] listOfFiles = folder.listFiles();
+		for (int i = 0; i < listOfFiles.length; i++) {
+			if (listOfFiles[i].isFile()) {
+				//log.debug("File " + listOfFiles[i].getName());
+				String logName = listOfFiles[i].getName();
+				String logMonth = logName.substring(0, 2);
+				String logYear = logName.substring(6, 10);
+				//log.debug("logMonth: " + logMonth);
+				//log.debug("logYear: " + logYear);
+				
+				if (currentMonthStr.equals(logMonth) && currentYearStr.equals(logYear)) {
+					// Log already exists for current month so break
+					logExists = true;
+					break;
+				}
+
+			} else if (listOfFiles[i].isDirectory()) {
+				//log.debug("Directory " + listOfFiles[i].getName());
+			}
+		}
+		
+		if (logExists) {
+			return;
+		} else {
+			// Log does not exist for current month so copy appvet_log.txt to 
+			// new log file 'MM-DD-YYYY_appvet_log.txt and CLEAR appvet_log.txt
+			String destinationPath = kryptowireLogsPath + "/" + currentMonthStr + "-" + currentDayStr + "-" + currentYearStr + 
+					"_appvet_log.txt";
+			try {
+				// Copy active log file to saved log file
+				log.info("Saving log file: " + destinationPath);
+				Files.copy(Paths.get(kryptowireLogsPath), new FileOutputStream(destinationPath));
+				// Clear active log file
+				log.info("Clearing active log");
+				PrintWriter pw = new PrintWriter(kryptowireLogsPath);
+				pw.close();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	// TODO

@@ -35,7 +35,7 @@ import java.util.ArrayList;
 public class Properties {
     
     /** Github release version number. */
-    public static final String version = "1.0.1";
+    public static final String version = "1.1";
 
     /* CHANGE: Declare tool-specific environment variables. */
     public static String ANDROID_SIGVERIFIER_FILES_HOME = null;
