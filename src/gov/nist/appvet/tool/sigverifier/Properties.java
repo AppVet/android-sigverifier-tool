@@ -19,6 +19,7 @@
  */
 package gov.nist.appvet.tool.sigverifier;
 
+import gov.nist.appvet.tool.sigverifier.util.LogMaintainer;
 import gov.nist.appvet.tool.sigverifier.util.Logger;
 import gov.nist.appvet.tool.sigverifier.util.ToolStatus;
 import gov.nist.appvet.tool.sigverifier.util.Xml;
@@ -202,5 +203,9 @@ public class Properties {
 	appvetPassword = xml.getXPathValue("/Tool/AppVet/Password");
 	// log.info("/Tool/AppVet/Password: " + appvetPassword);
 
+	// Start log maintainer
+	LogMaintainer logMaintainer = new LogMaintainer();
+	Thread thread = new Thread(logMaintainer);
+	thread.start();
     }
 }
