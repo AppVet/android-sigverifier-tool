@@ -181,11 +181,20 @@ public class ReportUtil {
 	htmlBuffer.append("<title>" + Properties.toolName + "</title>\n");
 	htmlBuffer.append("</head>\n");
 	htmlBuffer.append("<body>\n");
-	String appVetImagesUrl = Properties.serviceUrl
-		+ "/images/nist-gray.png";
-	htmlBuffer.append("<img border=\"0\" width=\"100px\" src=\""
-		+ appVetImagesUrl + "\" alt=\"appvet\" />");
-	htmlBuffer.append("<HR>\n");
+	
+	
+	// Carwash AppVet banner
+	htmlBuffer.append("<table style=\"background:#015289;width:100%\">\n");
+	htmlBuffer.append("<tr>\n");
+	htmlBuffer.append("<td>\n");
+	String appvetLogo = "../appvet_images/appvet_logo_main.png";
+	htmlBuffer.append("<img src=\"" + appvetLogo + "\" alt=\"Carwash AppVet\" height=\"25\" width=\"200\">\n");
+	htmlBuffer.append("</tr>\n");
+	htmlBuffer.append("</td>\n");
+	htmlBuffer.append("</table>\n");
+	htmlBuffer.append("<br>\n");
+	
+	// Content
 	htmlBuffer.append("<h3>" + Properties.toolName + "</h3>\n");
 	htmlBuffer.append("<pre>\n");
 	htmlBuffer.append("File: \t\t" + fileName + "\n");
