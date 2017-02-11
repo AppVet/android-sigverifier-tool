@@ -106,13 +106,14 @@ public class LogMaintainer implements Runnable {
 			String destinationPath = logsDir + "/" + currentMonthStr + "-" + currentDayStr + "-" + currentYearStr + 
 					"_appvet_log.txt";
 			log.info("Copying active log to: " + destinationPath);
+			String sourceLogPath = logsDir + "/log.txt";
 
 			try {
 				// Copy active log file to saved log file
-				Files.copy(Paths.get(logsDir), new FileOutputStream(destinationPath));
+				Files.copy(Paths.get(logsDir + "/log.txt"), new FileOutputStream(destinationPath));
 				// Clear active log file
 				//log.info("Clearing active log");
-				PrintWriter pw = new PrintWriter(logsDir);
+				PrintWriter pw = new PrintWriter(sourceLogPath);
 				pw.close();
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
