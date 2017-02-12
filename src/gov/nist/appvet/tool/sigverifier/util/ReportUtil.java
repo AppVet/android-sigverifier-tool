@@ -48,49 +48,7 @@ public class ReportUtil {
 
     private static final Logger log = Properties.log;
 
-    public static ToolStatus analyzeReport(String report) {
-	if (report == null || report.isEmpty()) {
-	    log.error("Report is null or empty.");
-	    return ToolStatus.ERROR;
-	}
-	// Scan file for result strings defined in configuration file. Here,
-	// we always scan in this order: ERRORs, HIGHs, MODERATEs, and LOWs.
-	if (Properties.errorResults != null
-		&& !Properties.errorResults.isEmpty()) {
-	    for (String s : Properties.errorResults) {
-		if (report.indexOf(s) > -1) {
-		    log.debug("Error message: " + s);
-		    return ToolStatus.ERROR;
-		}
-	    }
-	}
-	if (Properties.highResults != null && !Properties.highResults.isEmpty()) {
-	    for (String s : Properties.highResults) {
-		if (report.indexOf(s) > -1) {
-		    log.debug("High message: " + s);
-		    return ToolStatus.HIGH;
-		}
-	    }
-	}
-	if (Properties.moderateResults != null
-		&& !Properties.moderateResults.isEmpty()) {
-	    for (String s : Properties.moderateResults) {
-		if (report.indexOf(s) > -1) {
-		    log.debug("Moderate message: " + s);
-		    return ToolStatus.MODERATE;
-		}
-	    }
-	}
-	if (Properties.lowResults != null && !Properties.lowResults.isEmpty()) {
-	    for (String s : Properties.lowResults) {
-		if (report.indexOf(s) > -1) {
-		    log.debug("Low message: " + s);
-		    return ToolStatus.LOW;
-		}
-	    }
-	}
-	return Properties.defaultStatus;
-    }
+
 
     /**
      * This method returns report information to the AppVet ToolAdapter as ASCII
