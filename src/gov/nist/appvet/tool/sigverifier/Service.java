@@ -19,6 +19,7 @@
  */
 package gov.nist.appvet.tool.sigverifier;
 
+import gov.nist.appvet.tool.androidmkef.Properties;
 import gov.nist.appvet.tool.sigverifier.util.FileUtil;
 import gov.nist.appvet.tool.sigverifier.util.HttpUtil;
 import gov.nist.appvet.tool.sigverifier.util.Logger;
@@ -171,6 +172,15 @@ public class Service extends HttpServlet {
 		 */
 		reportBuffer = new StringBuffer();
 		boolean succeeded = execute(command, reportBuffer);
+		
+		// Delay for demo purposes
+        try {
+			Thread.sleep(Properties.delay);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
 		// boolean succeeded = customExecute(reportBuffer);
 		if (!succeeded) {
 			log.error("Error detected: " + reportBuffer.toString());
