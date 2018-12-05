@@ -19,7 +19,6 @@
  */
 package gov.nist.appvet.tool.sigverifier;
 
-import gov.nist.appvet.tool.androidmkef.Properties;
 import gov.nist.appvet.tool.sigverifier.util.FileUtil;
 import gov.nist.appvet.tool.sigverifier.util.HttpUtil;
 import gov.nist.appvet.tool.sigverifier.util.Logger;
